@@ -85,6 +85,8 @@ exports.addConsultationNote = async (userId, patientId, data) => {
     notes: data.notes || "",
     addedAt: new Date()
   };
+  appointment.status = "COMPLETED";
+  appointment.completedAt = new Date();
   await appointment.save();
 
   return appointment;
@@ -156,11 +158,47 @@ exports.getDashboardStats = async (userId) => {
 };
 
 exports.listConsultants = async () => {
-  return User.find({
+  const consultants = await User.find({
     role: { $in: [ROLES.CONSULTANT, ROLES.PHYSIO, ROLES.PHYSIOTHERAPIST] }
   })
     .select("-password")
-    .sort({ createdAt: -1 });
+    .sort({ createdAt: -1 })
+    .lean();
+
+  const consultantIds = consultants.map((c) => c._id);
+  const profiles = await Consultant.find({ user: { $in: consultantIds }, isActive: true })
+    .select("user availability specialization experienceYears consultationFee")
+    .lean();
+
+  const profileMap = new Map(profiles.map((p) => [String(p.user), p]));
+
+  return consultants.map((user) => {
+    const profile = profileMap.get(String(user._id));
+    return {
+      ...user,
+      availability: profile?.availability || [],
+      specialization: profile?.specialization || "Physiotherapy",
+      experienceYears: profile?.experienceYears || 0,
+      consultationFee: profile?.consultationFee || 0
+    };
+  });
+};
+
+exports.countConsultants = async (filters = {}) => {
+  const query = { role: { $in: [ROLES.CONSULTANT, ROLES.PHYSIO, ROLES.PHYSIOTHERAPIST] } };
+  if (filters.isActive !== undefined) {
+    query.isActive = filters.isActive;
+  }
+  if (filters.search) {
+    const q = String(filters.search).trim();
+    query.$or = [
+      { name: { $regex: q, $options: "i" } },
+      { email: { $regex: q, $options: "i" } },
+      { userId: { $regex: q, $options: "i" } },
+      { physioId: { $regex: q, $options: "i" } }
+    ];
+  }
+  return User.countDocuments(query);
 };
 
 exports.createConsultant = async (data) => {

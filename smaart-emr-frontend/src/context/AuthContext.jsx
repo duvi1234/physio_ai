@@ -19,7 +19,13 @@ export const AuthProvider = ({ children }) => {
   const [loadingAuth, setLoadingAuth] = useState(true);
 
   useEffect(() => {
-    setUser(parseStoredUser());
+    const token = localStorage.getItem(AUTH_STORAGE_KEYS.accessToken);
+    if (!token) {
+      localStorage.removeItem(AUTH_STORAGE_KEYS.user);
+      setUser(null);
+    } else {
+      setUser(parseStoredUser());
+    }
     setLoadingAuth(false);
   }, []);
 
@@ -45,7 +51,8 @@ export const AuthProvider = ({ children }) => {
     const normalizedUser = {
       ...(data?.user || {}),
       id: data?.user?.id || userId,
-      role
+      role,
+      mustChangePassword: Boolean(data?.mustChangePassword || data?.user?.mustChangePassword)
     };
 
     localStorage.setItem(AUTH_STORAGE_KEYS.accessToken, accessToken);

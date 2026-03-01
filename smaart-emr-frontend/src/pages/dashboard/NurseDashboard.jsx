@@ -1,153 +1,143 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { CalendarClock, HeartPulse, ClipboardCheck } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { CalendarClock, ClipboardCheck, Activity, Stethoscope } from "lucide-react";
 import DashboardLayout from "../../layouts/DashboardLayout";
-import useAuth from "../../hooks/useAuth";
-import { nurseApiExamples } from "../../services/api.examples";
-
-const glass = "bg-white/10 backdrop-blur-md shadow-xl rounded-2xl border border-white/20";
-const inputClass = "rounded-xl border border-slate-200 bg-white/85 p-3 text-sm text-slate-800 outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-200";
-const asArray = (res) => (Array.isArray(res?.data?.data) ? res.data.data : []);
-
-const emptyVitals = {
-  patientId: "",
-  height: "",
-  weight: "",
-  bloodPressure: "",
-  pulse: "",
-  temperature: "",
-  oxygenSaturation: "",
-  pastMedicalHistory: "",
-  allergies: "",
-  currentMedications: "",
-  lifestyleFactors: ""
-};
+import StatCard from "../../components/dashboard/StatCard";
+import PageWrapper from "../../components/dashboard/PageWrapper";
+import DataTable from "../../components/dashboard/DataTable";
+import LoadingSpinner from "../../components/dashboard/LoadingSpinner";
+import ToastAlert from "../../components/dashboard/ToastAlert";
+import nurseDashboardService from "../../services/nurse.dashboard.service";
+import { first, formatDate, formatDateTime, todayIso } from "../nurse/nurse.ui";
 
 export default function NurseDashboard() {
-  const { user } = useAuth();
+  const [stats, setStats] = useState(null);
   const [appointments, setAppointments] = useState([]);
-  const [recentVitals, setRecentVitals] = useState([]);
-  const [vitalsForm, setVitalsForm] = useState(emptyVitals);
-  const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [toast, setToast] = useState(null);
 
-  const loadData = async () => {
+  const loadDashboard = async () => {
+    setLoading(true);
     try {
-      const appointmentRes = await nurseApiExamples.getAssignedAppointments(user?.id || user?.userId);
-      const appointmentRows = asArray(appointmentRes);
-      setAppointments(appointmentRows);
-
-      const firstPatientId = appointmentRows[0]?.patient?.patientId || appointmentRows[0]?.patient?._id;
-      if (firstPatientId) {
-        const vitalsRes = await nurseApiExamples.getVitals(firstPatientId);
-        setRecentVitals(asArray(vitalsRes));
-        setVitalsForm((v) => ({ ...v, patientId: firstPatientId }));
-      }
+      const [statsRes, apptRes] = await Promise.all([
+        nurseDashboardService.getDashboardStats(),
+        nurseDashboardService.getAssignedAppointments({ date: todayIso() })
+      ]);
+      setStats(statsRes || {});
+      setAppointments(Array.isArray(apptRes) ? apptRes : []);
     } catch (err) {
-      setError(err?.response?.data?.message || "Failed to load nurse dashboard.");
+      setToast({ type: "error", message: err.message || "Unable to load nurse dashboard." });
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (user) {
-      loadData();
-      const interval = setInterval(loadData, 30000);
-      return () => clearInterval(interval);
-    }
-  }, [user]);
+    loadDashboard();
+  }, []);
 
-  const submitVitals = async (e) => {
-    e.preventDefault();
-    setError("");
-    setMessage("");
-    try {
-      await nurseApiExamples.recordVitals({
-        ...vitalsForm,
-        height: vitalsForm.height ? Number(vitalsForm.height) : undefined,
-        weight: vitalsForm.weight ? Number(vitalsForm.weight) : undefined,
-        pulse: vitalsForm.pulse ? Number(vitalsForm.pulse) : undefined,
-        temperature: vitalsForm.temperature ? Number(vitalsForm.temperature) : undefined,
-        oxygenSaturation: vitalsForm.oxygenSaturation ? Number(vitalsForm.oxygenSaturation) : undefined,
-        allergies: vitalsForm.allergies ? vitalsForm.allergies.split(",").map((x) => x.trim()).filter(Boolean) : []
-      });
-      setMessage("Vitals submitted and synced to EMR.");
-      await loadData();
-    } catch (err) {
-      setError(err?.response?.data?.message || "Vitals submission failed.");
-    }
-  };
+  const columns = useMemo(
+    () => [
+      {
+        label: "Time",
+        render: (row) => (
+          <div>
+            <div className="font-semibold text-slate-900">{first(row.timeSlot)}</div>
+            <div className="text-xs text-slate-500">{formatDate(row.appointmentDate)}</div>
+          </div>
+        )
+      },
+      {
+        label: "Patient",
+        render: (row) =>
+          `${first(row?.patient?.firstName, "")} ${first(row?.patient?.lastName, "")}`.trim() ||
+          first(row?.patient?.patientId)
+      },
+      {
+        label: "Physio",
+        render: (row) => first(row?.physiotherapist?.name || row?.physiotherapist?.userId)
+      },
+      {
+        label: "Status",
+        render: (row) => (
+          <span className="rounded-full bg-cyan-100 px-3 py-1 text-xs font-semibold text-cyan-700">
+            {first(row.status, "PENDING")}
+          </span>
+        )
+      }
+    ],
+    []
+  );
 
-  const inputType = (key) => {
-    if (["height", "weight", "pulse", "temperature", "oxygenSaturation"].includes(key)) return "number";
-    return "text";
-  };
+  const statsCards = [
+    {
+      title: "Today's Appointments",
+      value: stats?.todayAppointments || 0,
+      icon: CalendarClock,
+      accent: "from-blue-600 to-cyan-500"
+    },
+    {
+      title: "Checked-In Patients",
+      value: stats?.checkedIn || 0,
+      icon: ClipboardCheck,
+      accent: "from-emerald-500 to-teal-500"
+    },
+    {
+      title: "Vitals Entered Today",
+      value: stats?.vitalsToday || 0,
+      icon: Activity,
+      accent: "from-amber-500 to-orange-500"
+    },
+    {
+      title: "Pain Assessments Done",
+      value: stats?.painToday || 0,
+      icon: Stethoscope,
+      accent: "from-indigo-500 to-violet-500"
+    }
+  ];
 
   return (
     <DashboardLayout title="Nurse Dashboard">
-      <section className="grid gap-6 md:grid-cols-3">
-        <div className={`${glass} p-6`}>
-          <CalendarClock className="mb-3 text-cyan-700" size={20} />
-          <p className="text-sm text-slate-600">Today's Assigned Appointments</p>
-          <p className="mt-2 text-3xl font-semibold">{appointments.length}</p>
-        </div>
-        <div className={`${glass} p-6`}>
-          <HeartPulse className="mb-3 text-cyan-700" size={20} />
-          <p className="text-sm text-slate-600">Recent Vitals Logged</p>
-          <p className="mt-2 text-3xl font-semibold">{recentVitals.length}</p>
-        </div>
-        <div className={`${glass} p-6`}>
-          <p className="text-sm text-slate-600">Logged In Nurse</p>
-          <p className="mt-2 text-lg font-semibold">{user?.name || user?.userId || "Nurse"}</p>
-        </div>
-      </section>
+      <PageWrapper>
+        {loading ? <LoadingSpinner /> : null}
 
-      <section className={`mt-8 ${glass} p-6`}>
-        <h3 className="mb-4 text-lg font-semibold tracking-tight">Vitals Entry</h3>
-        {error ? <p className="mb-3 text-sm text-rose-600">{error}</p> : null}
-        {message ? <p className="mb-3 text-sm text-emerald-700">{message}</p> : null}
-        <form className="grid gap-3 md:grid-cols-2" onSubmit={submitVitals}>
-          {[
-            ["patientId", "Patient ID"],
-            ["height", "Height (cm)"],
-            ["weight", "Weight (kg)"],
-            ["bloodPressure", "Blood Pressure"],
-            ["pulse", "Pulse"],
-            ["temperature", "Temperature"],
-            ["oxygenSaturation", "SpO2"],
-            ["pastMedicalHistory", "Past Medical History"],
-            ["allergies", "Allergies (comma separated)"],
-            ["currentMedications", "Current Medications"],
-            ["lifestyleFactors", "Lifestyle Factors"]
-          ].map(([key, label]) => (
-            <input
-              key={key}
-              type={inputType(key)}
-              placeholder={label}
-              value={vitalsForm[key]}
-              onChange={(e) => setVitalsForm((v) => ({ ...v, [key]: e.target.value }))}
-              className={inputClass}
-              required={["patientId", "bloodPressure", "pulse", "temperature"].includes(key)}
-            />
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          {statsCards.map((card) => (
+            <StatCard key={card.title} {...card} />
           ))}
-          <button className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 via-teal-500 to-indigo-700 px-4 py-3 text-sm font-semibold text-white transition-all duration-300 hover:scale-105 md:col-span-2">
-            <ClipboardCheck size={16} /> Submit Vitals
-          </button>
-        </form>
-      </section>
-
-      <section className={`mt-8 ${glass} p-6`}>
-        <h3 className="mb-4 text-lg font-semibold tracking-tight">Assigned Appointments</h3>
-        <div className="space-y-3">
-          {appointments.slice(0, 8).map((row) => (
-            <motion.div key={row._id || row.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="rounded-xl bg-white/40 p-4 text-sm text-slate-700">
-              <p className="font-semibold">{row?.patient?.name || `${row?.patient?.firstName || ""} ${row?.patient?.lastName || ""}`.trim()}</p>
-              <p>{new Date(row.appointmentDate || row.date || row.createdAt).toLocaleString()}</p>
-              <p>Status: {row.status || "CONFIRMED"}</p>
-            </motion.div>
-          ))}
-          {!appointments.length ? <p className="text-sm text-slate-500">No appointments assigned.</p> : null}
         </div>
-      </section>
+
+        <div className="rounded-2xl border border-white/50 bg-white/40 p-6 shadow-xl backdrop-blur-xl">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h3 className="text-lg font-semibold text-slate-900">Upcoming Appointments</h3>
+              <p className="text-xs text-slate-500">Updated {formatDateTime(new Date())}</p>
+            </div>
+            <div className="flex gap-3">
+              <a
+                href="/dashboard/nurse/vitals"
+                className="rounded-xl bg-cyan-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:scale-[1.02]"
+              >
+                Add Vitals
+              </a>
+              <a
+                href="/dashboard/nurse/assessments"
+                className="rounded-xl border border-cyan-200 bg-white/80 px-4 py-2 text-sm font-semibold text-cyan-700"
+              >
+                Add Pain Assessment
+              </a>
+            </div>
+          </div>
+          <div className="mt-4">
+            <DataTable rows={appointments} columns={columns} loading={loading} emptyMessage="No upcoming appointments." />
+          </div>
+        </div>
+      </PageWrapper>
+
+      {toast ? (
+        <div className="fixed bottom-4 right-4 z-50">
+          <ToastAlert type={toast.type} message={toast.message} onClose={() => setToast(null)} />
+        </div>
+      ) : null}
     </DashboardLayout>
   );
 }

@@ -41,12 +41,17 @@ const requestSchema = new mongoose.Schema(
     preferredTimeSlot: String,
 
     description: String,
+    notes: {
+      type: String,
+      default: ""
+    },
 
     status: {
       type: String,
       enum: [
         "PENDING",
         "CONTACTED",
+        "APPROVED",
         "CONVERTED",
         "REJECTED"
       ],
@@ -57,6 +62,12 @@ const requestSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       default: null
+    },
+
+    isActive: {
+      type: Boolean,
+      default: true,
+      index: true
     }
   },
   { timestamps: true }

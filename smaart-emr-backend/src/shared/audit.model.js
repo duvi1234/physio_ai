@@ -2,9 +2,30 @@ const mongoose = require("mongoose");
 
 const auditSchema = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    },
+
+    role: {
+      type: String
+    },
+
     action: {
       type: String,
       required: true
+    },
+
+    entityType: {
+      type: String
+    },
+
+    entityId: {
+      type: mongoose.Schema.Types.ObjectId
+    },
+
+    timestamp: {
+      type: Date
     },
 
     performedBy: {
@@ -13,10 +34,7 @@ const auditSchema = new mongoose.Schema(
       required: true
     },
 
-    role: {
-      type: String,
-      required: true
-    },
+    // role retained above for compatibility
 
     targetId: {
       type: mongoose.Schema.Types.ObjectId

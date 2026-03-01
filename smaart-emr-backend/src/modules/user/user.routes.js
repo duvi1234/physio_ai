@@ -40,4 +40,11 @@ router.get(
   userController.listStaff
 );
 
+router.get(
+  "/staff-attendance",
+  authMiddleware,
+  roleMiddleware(ROLES.ADMIN, ROLES.SUPER_ADMIN),
+  userController.getStaffAttendanceToday
+);
+
 module.exports = router;

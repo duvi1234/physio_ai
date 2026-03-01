@@ -8,9 +8,23 @@ const initialForm = {
   department: "Physiotherapy",
   location: "",
   preferredDate: "",
-  preferredTimeSlot: "",
+  preferredTimeSlot: "09:00 AM - 10:00 AM",
   description: ""
 };
+
+const timeSlots = [
+  "09:00 AM - 10:00 AM",
+  "10:00 AM - 11:00 AM",
+  "11:00 AM - 12:00 PM",
+  "12:00 PM - 01:00 PM",
+  "02:00 PM - 03:00 PM",
+  "03:00 PM - 04:00 PM",
+  "04:00 PM - 05:00 PM",
+  "05:00 PM - 06:00 PM"
+];
+
+const inputClass =
+  "w-full rounded-xl border border-slate-400 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-200";
 
 export default function AppointmentRequestForm() {
   const [form, setForm] = useState(initialForm);
@@ -44,8 +58,7 @@ export default function AppointmentRequestForm() {
             ["phone", "Phone", "text"],
             ["email", "Email", "email"],
             ["location", "Location", "text"],
-            ["preferredDate", "Preferred Date", "date"],
-            ["preferredTimeSlot", "Preferred Time Slot", "text"]
+            ["preferredDate", "Preferred Date", "date"]
           ].map(([name, label, type]) => (
             <div key={name}>
               <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-600">{label}</label>
@@ -54,17 +67,31 @@ export default function AppointmentRequestForm() {
                 value={form[name]}
                 onChange={(e) => setForm((prev) => ({ ...prev, [name]: e.target.value }))}
                 required={name !== "email"}
-                className="w-full rounded-xl border border-white/30 bg-white/30 px-4 py-3 text-sm outline-none"
+                className={inputClass}
               />
             </div>
           ))}
+
+          <div>
+            <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-600">Preferred Time Slot</label>
+            <select
+              value={form.preferredTimeSlot}
+              onChange={(e) => setForm((prev) => ({ ...prev, preferredTimeSlot: e.target.value }))}
+              required
+              className={inputClass}
+            >
+              {timeSlots.map((slot) => (
+                <option key={slot} value={slot}>{slot}</option>
+              ))}
+            </select>
+          </div>
 
           <div>
             <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-600">Department</label>
             <select
               value={form.department}
               onChange={(e) => setForm((prev) => ({ ...prev, department: e.target.value }))}
-              className="w-full rounded-xl border border-white/30 bg-white/30 px-4 py-3 text-sm outline-none"
+              className={inputClass}
             >
               <option>Physiotherapy</option>
               <option>Orthopedics</option>
@@ -79,7 +106,7 @@ export default function AppointmentRequestForm() {
               rows={4}
               value={form.description}
               onChange={(e) => setForm((prev) => ({ ...prev, description: e.target.value }))}
-              className="w-full rounded-xl border border-white/30 bg-white/30 px-4 py-3 text-sm outline-none"
+              className={inputClass}
             />
           </div>
 

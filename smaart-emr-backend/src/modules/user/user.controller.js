@@ -1,6 +1,6 @@
 const userService = require("./user.service");
 const { success, error } = require("../../utils/responseHandler");
-const ROLES = require("../../config/roles");
+const { ROLES } = require("../../utils/constants");
 
 exports.createNurse = async (req, res) => {
   try {
@@ -46,5 +46,14 @@ exports.createUser = async (req, res) => {
     success(res, "User created successfully", created, 201);
   } catch (err) {
     error(res, err.message);
+  }
+};
+
+exports.getStaffAttendanceToday = async (req, res) => {
+  try {
+    const attendance = await userService.getStaffAttendanceToday();
+    success(res, "Staff attendance fetched successfully", attendance);
+  } catch (err) {
+    error(res, err.message, 500);
   }
 };

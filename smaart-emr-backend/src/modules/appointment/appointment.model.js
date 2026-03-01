@@ -25,6 +25,13 @@ const appointmentSchema = new mongoose.Schema(
       required: true,
       index: true
     },
+    // Alias for physiotherapist (for role-specific populate)
+    physio: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+      index: true
+    },
 
     // Admin / Patient who booked
     bookedBy: {
@@ -35,6 +42,13 @@ const appointmentSchema = new mongoose.Schema(
 
     // Optional nurse assignment for ward workflow
     assignedTo: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+      index: true
+    },
+    // Alias for assigned nurse (for role-specific populate)
+    nurse: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       default: null,
@@ -72,6 +86,10 @@ const appointmentSchema = new mongoose.Schema(
       enum: [
         "PENDING",
         "CONFIRMED",
+        "ARRIVED",
+        "INTAKE_COMPLETED",
+        "READY_FOR_PT",
+        "IN_SESSION",
         "CANCELLED",
         "COMPLETED",
         "NO_SHOW"
@@ -91,6 +109,11 @@ const appointmentSchema = new mongoose.Schema(
     notes: {
       type: String,
       trim: true
+    },
+
+    checkInAt: {
+      type: Date,
+      default: null
     },
 
     consultation: {
@@ -114,6 +137,12 @@ const appointmentSchema = new mongoose.Schema(
     // 🔥 Important for EMR timeline
     completedAt: {
       type: Date
+    },
+
+    isActive: {
+      type: Boolean,
+      default: true,
+      index: true
     }
   },
   {

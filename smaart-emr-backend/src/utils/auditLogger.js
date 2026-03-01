@@ -1,31 +1,23 @@
 const Audit = require("../shared/audit.model");
 
-const auditLogger = async ({
-  userId,
-  role,
-  action,
-  targetId,
-  targetModel,
-  metadata,
-  ipAddress,
-  device,
-  loginTime,
-  logoutTime
-}) => {
-  if (!userId || !action || !role) return null;
+async function logAudit({ userId, role, action, entityType, entityId, metadata }) {
+  try {
+    const timestamp = new Date();
+    await Audit.create({
+      userId,
+      role,
+      action,
+      entityType,
+      entityId,
+      timestamp,
+      performedBy: userId,
+      targetId: entityId,
+      targetModel: entityType,
+      metadata
+    });
+  } catch (err) {
+    console.error("Failed to log audit entry:", err);
+  }
+}
 
-  return Audit.create({
-    performedBy: userId,
-    role,
-    action,
-    targetId,
-    targetModel,
-    metadata,
-    ipAddress,
-    device,
-    loginTime,
-    logoutTime
-  });
-};
-
-module.exports = auditLogger;
+module.exports = logAudit;

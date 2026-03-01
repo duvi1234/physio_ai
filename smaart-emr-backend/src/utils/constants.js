@@ -1,0 +1,13 @@
+const ROLES = {
+  ADMIN: 'ADMIN',
+  DOCTOR: 'DOCTOR',
+  NURSE: 'NURSE',
+  PATIENT: 'PATIENT',
+  RECEPTIONIST: 'RECEPTIONIST',
+  LAB_TECH: 'LAB_TECH',
+  PHARMACIST: 'PHARMACIST'
+};
+
+module.exports = {
+  ROLES
+};

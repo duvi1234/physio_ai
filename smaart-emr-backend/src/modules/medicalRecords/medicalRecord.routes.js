@@ -18,7 +18,7 @@ router.post(
 router.post(
   "/upload",
   authMiddleware,
-  roleMiddleware(ROLES.ADMIN, ROLES.SUPER_ADMIN, ROLES.PATIENT),
+  roleMiddleware(ROLES.ADMIN, ROLES.SUPER_ADMIN, ROLES.PATIENT, ROLES.NURSE, ROLES.CONSULTANT, ROLES.PHYSIO, ROLES.PHYSIOTHERAPIST),
   upload.single("file"),
   controller.createRecord
 );
@@ -56,7 +56,7 @@ router.get(
 router.delete(
   "/:id",
   authMiddleware,
-  roleMiddleware(ROLES.ADMIN, ROLES.SUPER_ADMIN),
+  roleMiddleware(ROLES.ADMIN, ROLES.SUPER_ADMIN, ROLES.NURSE),
   controller.deleteRecord
 );
 

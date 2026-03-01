@@ -53,8 +53,8 @@ exports.logout = async (req, res) => {
 
 exports.forgotPassword = async (req, res) => {
   try {
-    await authService.forgotPassword(req.body.identifier);
-    success(res, "If the account exists, a reset link has been sent.");
+    const data = await authService.forgotPassword(req.body.identifier);
+    success(res, "If the account exists, reset instructions have been processed.", data);
   } catch (err) {
     error(res, err.message);
   }

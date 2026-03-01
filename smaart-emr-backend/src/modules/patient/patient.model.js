@@ -35,6 +35,10 @@ const patientSchema = new mongoose.Schema(
       type: Date,
       required: true
     },
+    age: {
+      type: Number,
+      min: 0
+    },
 
     // Contact
     phone: {
@@ -47,8 +51,31 @@ const patientSchema = new mongoose.Schema(
       lowercase: true,
       trim: true
     },
-    address: {
-      type: String
+    addressLine1: String,
+    addressLine2: String,
+    city: String,
+    state: String,
+    postalCode: String,
+    country: String,
+    address: String,
+
+    emergencyContactName: {
+      type: String,
+      trim: true
+    },
+    emergencyContactRelationship: {
+      type: String,
+      trim: true
+    },
+    emergencyContactPhone: {
+      type: String,
+      trim: true
+    },
+
+    assignedPhysio: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null
     },
 
     // Insurance
@@ -58,13 +85,25 @@ const patientSchema = new mongoose.Schema(
     // Medical Flags
     bloodGroup: String,
     allergies: [String],
+    chronicConditions: [String],
+    pastSurgeries: String,
+    currentMedications: String,
+    lifestyle: String,
+    profilePhotoUrl: {
+      type: String,
+      default: ""
+    },
 
     isActive: {
       type: Boolean,
       default: true
     }
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
+
+patientSchema.virtual("fullName").get(function getFullName() {
+  return `${this.firstName || ""} ${this.lastName || ""}`.trim();
+});
 
 module.exports = mongoose.model("Patient", patientSchema);

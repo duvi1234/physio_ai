@@ -13,7 +13,6 @@ const api = axios.create({
   baseURL: API_BASE_URL,
   timeout: 15000
 });
-
 const clearAuthStorage = () => {
   localStorage.removeItem(AUTH_STORAGE_KEYS.accessToken);
   localStorage.removeItem(AUTH_STORAGE_KEYS.refreshToken);
@@ -21,9 +20,14 @@ const clearAuthStorage = () => {
 };
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem(AUTH_STORAGE_KEYS.accessToken);
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  try {
+    const token = localStorage.getItem(AUTH_STORAGE_KEYS.accessToken);
+    if (token) {
+      config.headers = config.headers || {};
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  } catch (e) {
+    // Ignore storage errors in SSR or privacy modes
   }
   return config;
 });

@@ -2,21 +2,30 @@ const smsService = require("./sms.service");
 const emailService = require("./email.service");
 
 const safeSend = async (phone, email, subject, message, html) => {
-  const tasks = [];
+  const result = {
+    smsSent: false,
+    emailSent: false,
+    smsError: null,
+    emailError: null
+  };
+
   if (phone) {
-    tasks.push(smsService.sendSMS({ to: phone, message }));
+    const smsRes = await smsService.sendSMS({ to: phone, message });
+    result.smsSent = Boolean(smsRes?.success);
+    result.smsError = smsRes?.success ? null : smsRes?.message || "SMS delivery failed";
   }
+
   if (email) {
-    tasks.push(
-      emailService.sendEmail({
-        to: email,
-        subject,
-        html: html || `<p>${message}</p>`
-      })
-    );
+    const emailRes = await emailService.sendEmail({
+      to: email,
+      subject,
+      html: html || `<p>${message}</p>`
+    });
+    result.emailSent = Boolean(emailRes?.success);
+    result.emailError = emailRes?.success ? null : emailRes?.message || "Email delivery failed";
   }
-  if (!tasks.length) return [];
-  return Promise.allSettled(tasks);
+
+  return result;
 };
 
 exports.sendAppointmentConfirmation = async ({ patient, appointment, consultant }) => {

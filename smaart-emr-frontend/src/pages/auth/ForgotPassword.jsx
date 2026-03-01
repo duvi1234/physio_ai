@@ -8,15 +8,26 @@ export default function ForgotPassword() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [deliveryHint, setDeliveryHint] = useState("");
+  const [devResetLink, setDevResetLink] = useState("");
 
   const onSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
+    setDeliveryHint("");
+    setDevResetLink("");
     setLoading(true);
     try {
-      await forgotPassword(identifier);
+      const res = await forgotPassword(identifier);
+      const data = res?.data?.data || {};
       setSuccess("If the account exists, reset instructions have been sent.");
+      if (data?.delivery?.emailSent === false) {
+        setDeliveryHint(data?.delivery?.emailError || "Email delivery failed. Configure SMTP credentials.");
+      }
+      if (data?.resetLink) {
+        setDevResetLink(data.resetLink);
+      }
     } catch (err) {
       setError(err?.response?.data?.message || "Unable to process request.");
     } finally {
@@ -39,6 +50,12 @@ export default function ForgotPassword() {
           />
           {error ? <p className="text-sm text-rose-600">{error}</p> : null}
           {success ? <p className="text-sm text-emerald-700">{success}</p> : null}
+          {deliveryHint ? <p className="text-sm text-amber-700">{deliveryHint}</p> : null}
+          {devResetLink ? (
+            <p className="break-all rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800">
+              Dev Reset Link: {devResetLink}
+            </p>
+          ) : null}
           <button disabled={loading} className="w-full rounded-xl bg-gradient-to-r from-blue-600 via-teal-500 to-indigo-700 px-5 py-3 text-sm font-semibold text-white">
             {loading ? "Sending..." : "Send Reset Link"}
           </button>

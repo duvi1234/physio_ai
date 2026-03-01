@@ -80,3 +80,17 @@ exports.deleteRecord = async (req, res) => {
     return error(res, err.message, err.status || 400);
   }
 };
+
+exports.deleteMedicalRecord = async (req, res) => {
+  try {
+    const record = await medicalService.updateRecord(req.params.recordId, { isActive: false });
+
+    if (!record) {
+      return error(res, "Medical record not found", 404);
+    }
+
+    success(res, "Medical record deactivated successfully", record);
+  } catch (err) {
+    error(res, err.message, 400);
+  }
+};

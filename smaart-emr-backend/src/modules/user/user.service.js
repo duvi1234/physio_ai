@@ -4,6 +4,7 @@ const generateTempPassword = require("../../utils/tempPassword");
 const User = require("./user.model");
 const ROLES = require("../../config/roles");
 const Consultant = require("../consultant/consultant.model");
+const Audit = require("../../shared/audit.model");
 
 const CONSULTANT_ROLES = [ROLES.CONSULTANT, ROLES.PHYSIO, ROLES.PHYSIOTHERAPIST];
 
@@ -129,10 +130,82 @@ exports.listUsers = async (filters = {}) => {
   if (filters.role) {
     query.role = String(filters.role).toUpperCase();
   }
+  if (filters.isActive !== undefined) {
+    query.isActive = filters.isActive;
+  }
+  if (filters.search) {
+    const q = String(filters.search).trim();
+    query.$or = [
+      { name: { $regex: q, $options: "i" } },
+      { email: { $regex: q, $options: "i" } },
+      { phone: { $regex: q, $options: "i" } },
+      { userId: { $regex: q, $options: "i" } },
+      { nurseId: { $regex: q, $options: "i" } },
+      { physioId: { $regex: q, $options: "i" } }
+    ];
+  }
+
+  const skip = Number(filters.skip || 0);
+  const limit = Number(filters.limit || 50);
+  const sort = filters.sort || { createdAt: -1 };
 
   return User.find(query)
     .select("-password")
-    .sort({ createdAt: -1 });
+    .sort(sort)
+    .skip(skip)
+    .limit(limit);
+};
+
+exports.countUsers = async (filters = {}) => {
+  const query = {};
+  if (filters.role) {
+    query.role = String(filters.role).toUpperCase();
+  }
+  if (filters.isActive !== undefined) {
+    query.isActive = filters.isActive;
+  }
+  if (filters.search) {
+    const q = String(filters.search).trim();
+    query.$or = [
+      { name: { $regex: q, $options: "i" } },
+      { email: { $regex: q, $options: "i" } },
+      { phone: { $regex: q, $options: "i" } },
+      { userId: { $regex: q, $options: "i" } },
+      { nurseId: { $regex: q, $options: "i" } },
+      { physioId: { $regex: q, $options: "i" } }
+    ];
+  }
+  return User.countDocuments(query);
+};
+
+exports.getUserById = async (id) => {
+  return User.findById(id).select("-password");
+};
+
+exports.updateUser = async (id, payload = {}) => {
+  const user = await User.findById(id);
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const updatable = [
+    "name",
+    "email",
+    "phone",
+    "password",
+    "isActive",
+    "mustChangePassword"
+  ];
+  updatable.forEach((field) => {
+    if (payload[field] !== undefined) {
+      user[field] = payload[field];
+    }
+  });
+
+  await user.save();
+  const safe = user.toObject();
+  delete safe.password;
+  return safe;
 };
 
 exports.createUser = async (data) => {
@@ -174,4 +247,58 @@ exports.createUser = async (data) => {
     temporaryPassword: tempPassword,
     tempPassword
   };
+};
+
+exports.getStaffAttendanceToday = async () => {
+  const start = new Date();
+  start.setHours(0, 0, 0, 0);
+  const end = new Date(start);
+  end.setDate(end.getDate() + 1);
+
+  const logs = await Audit.find({
+    role: { $in: [ROLES.NURSE, ROLES.CONSULTANT, ROLES.PHYSIO, ROLES.PHYSIOTHERAPIST] },
+    $or: [
+      { loginTime: { $gte: start, $lt: end } },
+      { logoutTime: { $gte: start, $lt: end } },
+      { createdAt: { $gte: start, $lt: end } }
+    ]
+  })
+    .populate("performedBy", "name email nurseId physioId userId role")
+    .sort({ createdAt: -1 })
+    .lean();
+
+  const attendanceMap = new Map();
+
+  logs.forEach((log) => {
+    const user = log.performedBy;
+    if (!user?._id) return;
+    const key = String(user._id);
+
+    if (!attendanceMap.has(key)) {
+      attendanceMap.set(key, {
+        userId: user.userId,
+        nurseId: user.nurseId,
+        physioId: user.physioId,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        loginTime: null,
+        logoutTime: null
+      });
+    }
+
+    const row = attendanceMap.get(key);
+    if (log.action === "LOGIN" && log.loginTime) {
+      if (!row.loginTime || new Date(log.loginTime) > new Date(row.loginTime)) {
+        row.loginTime = log.loginTime;
+      }
+    }
+    if (log.action === "LOGOUT" && log.logoutTime) {
+      if (!row.logoutTime || new Date(log.logoutTime) > new Date(row.logoutTime)) {
+        row.logoutTime = log.logoutTime;
+      }
+    }
+  });
+
+  return Array.from(attendanceMap.values()).sort((a, b) => String(a.role).localeCompare(String(b.role)));
 };

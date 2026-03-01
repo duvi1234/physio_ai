@@ -5,7 +5,14 @@ const PREFIX_MAP = {
   NURSE: "NU",
   PHYSIO: "PH",
   PHYSIOTHERAPIST: "PH",
-  CONSULTANT: "PH"
+  CONSULTANT: "PH",
+  APPOINTMENT: "AP",
+  VITALS: "VT",
+  PAIN_ASSESSMENT: "PA",
+  NURSE_NOTE: "NT",
+  POSTURE_ANALYSIS: "PO",
+  TREATMENT_PLAN: "TP",
+  SESSION_NOTE: "SN"
 };
 
 const generateId = async (type) => {

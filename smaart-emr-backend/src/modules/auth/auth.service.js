@@ -120,7 +120,19 @@ exports.login = async (data, context = {}) => {
     return {
       message: "Password change required",
       mustChangePassword: true,
-      userId: user._id
+      userId: user._id,
+      role: user.role,
+      user: {
+        id: user._id,
+        userId: user.userId,
+        adminId: user.adminId,
+        nurseId: user.nurseId,
+        physioId: user.physioId,
+        patientId: user.patientId,
+        name: user.name,
+        email: user.email,
+        role: user.role
+      }
     };
   }
 
@@ -131,6 +143,17 @@ exports.login = async (data, context = {}) => {
     refreshToken: tokens.refreshToken,
     role: user.role,
     userId: user._id,
+    user: {
+      id: user._id,
+      userId: user.userId,
+      adminId: user.adminId,
+      nurseId: user.nurseId,
+      physioId: user.physioId,
+      patientId: user.patientId,
+      name: user.name,
+      email: user.email,
+      role: user.role
+    },
     mustChangePassword: false
   };
 };
@@ -212,9 +235,10 @@ exports.forgotPassword = async (identifier) => {
   if (!identifier) {
     throw new Error("Email or phone is required");
   }
+  const normalizedIdentifier = String(identifier).trim();
 
   const user = await User.findOne({
-    $or: [{ email: identifier }, { phone: identifier }]
+    $or: [{ email: normalizedIdentifier.toLowerCase() }, { phone: normalizedIdentifier }]
   });
 
   if (!user) {
@@ -234,14 +258,23 @@ exports.forgotPassword = async (identifier) => {
   const resetLink = `${process.env.FRONTEND_URL || "http://localhost:5173"}/reset-password?token=${rawToken}`;
   const message = `Use this link to reset your password (valid for 15 minutes): ${resetLink}`;
 
-  await notificationService.sendCustomNotification({
+  const delivery = await notificationService.sendCustomNotification({
     phone: user.phone,
     email: user.email,
     subject: "SMAART EMR Password Reset",
     message
   });
 
-  return { masked: true };
+  const response = {
+    masked: true,
+    delivery
+  };
+
+  if (process.env.NODE_ENV !== "production" && !delivery?.emailSent) {
+    response.resetLink = resetLink;
+  }
+
+  return response;
 };
 
 exports.resetPassword = async (rawToken, newPassword) => {

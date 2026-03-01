@@ -29,9 +29,59 @@ exports.createRequest = async (data) => {
 };
 
 exports.getAllRequests = async () => {
-  return AppointmentRequest.find()
+  return AppointmentRequest.find({ isActive: true })
     .sort({ createdAt: -1 })
-    .populate("handledBy", "uniqueId role");
+    .populate("handledBy", "userId role");
+};
+
+exports.listRequests = async (filters = {}, skip = 0, limit = 20) => {
+  const query = { isActive: filters.isActive !== undefined ? filters.isActive : true };
+  if (filters.status && filters.status !== "ALL") {
+    query.status = String(filters.status).toUpperCase();
+  }
+  if (filters.search) {
+    const q = String(filters.search).trim();
+    query.$or = [
+      { requestId: { $regex: q, $options: "i" } },
+      { fullName: { $regex: q, $options: "i" } },
+      { phone: { $regex: q, $options: "i" } }
+    ];
+  }
+  return AppointmentRequest.find(query)
+    .sort({ createdAt: -1 })
+    .skip(Number(skip))
+    .limit(Number(limit))
+    .populate("handledBy", "userId role");
+};
+
+exports.countRequests = async (filters = {}) => {
+  const query = { isActive: filters.isActive !== undefined ? filters.isActive : true };
+  if (filters.status && filters.status !== "ALL") {
+    query.status = String(filters.status).toUpperCase();
+  }
+  if (filters.search) {
+    const q = String(filters.search).trim();
+    query.$or = [
+      { requestId: { $regex: q, $options: "i" } },
+      { fullName: { $regex: q, $options: "i" } },
+      { phone: { $regex: q, $options: "i" } }
+    ];
+  }
+  return AppointmentRequest.countDocuments(query);
+};
+
+exports.getRequestById = async (requestId) => {
+  return AppointmentRequest.findOne({
+    $or: [{ requestId }, { _id: requestId }]
+  }).populate("handledBy", "userId role");
+};
+
+exports.updateRequest = async (requestId, payload = {}) => {
+  return AppointmentRequest.findOneAndUpdate(
+    { $or: [{ requestId }, { _id: requestId }] },
+    payload,
+    { new: true }
+  );
 };
 
 exports.updateRequestStatus = async (
@@ -66,7 +116,15 @@ exports.convertRequestToPatientAndAppointment = async (requestId, payload, admin
     email: request.email,
     gender: payload.gender || "Other",
     dateOfBirth: payload.dateOfBirth || "2000-01-01",
-    address: payload.address || request.location
+    addressLine1: payload.addressLine1 || payload.address || request.location || "",
+    addressLine2: payload.addressLine2 || "",
+    city: payload.city || "",
+    state: payload.state || "",
+    postalCode: payload.postalCode || "",
+    country: payload.country || "India",
+    emergencyContactName: payload.emergencyContactName || request.fullName || "Primary Contact",
+    emergencyContactRelationship: payload.emergencyContactRelationship || "Self",
+    emergencyContactPhone: payload.emergencyContactPhone || request.phone
   });
   const patient = createdPatient.patient;
 
@@ -84,7 +142,7 @@ exports.convertRequestToPatientAndAppointment = async (requestId, payload, admin
     adminUser
   );
 
-  request.status = "CONVERTED";
+  request.status = "APPROVED";
   request.handledBy = adminUser._id;
   await request.save();
 

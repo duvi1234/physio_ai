@@ -12,6 +12,7 @@ const hasAccess = (allowedRoles, role) => {
 export default function ProtectedRoute({ allowedRoles }) {
   const { user, loadingAuth } = useAuth();
   const location = useLocation();
+  const accessToken = localStorage.getItem(AUTH_STORAGE_KEYS.accessToken);
 
   if (loadingAuth) {
     return (
@@ -23,7 +24,7 @@ export default function ProtectedRoute({ allowedRoles }) {
     );
   }
 
-  if (!user) {
+  if (!user || !accessToken) {
     const loginPath = location.pathname.startsWith("/dashboard/patient") ? "/patient/login" : "/staff/login";
     const tokenExpired = localStorage.getItem(AUTH_STORAGE_KEYS.tokenExpired) === "1";
     return <Navigate to={loginPath} replace state={{ from: location, tokenExpired }} />;
@@ -31,6 +32,10 @@ export default function ProtectedRoute({ allowedRoles }) {
 
   if (!hasAccess(allowedRoles, user.role)) {
     return <Navigate to="/unauthorized" replace />;
+  }
+
+  if (user?.mustChangePassword && location.pathname !== "/change-password") {
+    return <Navigate to="/change-password" replace state={{ from: location }} />;
   }
 
   return <Outlet />;

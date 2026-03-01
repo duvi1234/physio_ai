@@ -8,6 +8,7 @@ import { consultantApiExamples } from "../../services/api.examples";
 const glass = "bg-white/10 backdrop-blur-md shadow-xl rounded-2xl border border-white/20";
 const inputClass = "rounded-xl border border-slate-200 bg-white/85 p-3 text-sm text-slate-800 outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-200";
 const list = (res) => (Array.isArray(res?.data?.data) ? res.data.data : []);
+const first = (v, fb = "-") => (v === undefined || v === null || v === "" ? fb : v);
 
 export default function ConsultantDashboard() {
   const { user } = useAuth();
@@ -115,6 +116,12 @@ export default function ConsultantDashboard() {
           <div className="space-y-3">
             {vitals.slice(0, 6).map((item) => (
               <div key={item._id || item.id} className="rounded-xl bg-white/40 p-4 text-sm text-slate-700">
+                <p className="font-semibold">
+                  Recorded: {new Date(item.recordedAt || item.createdAt).toLocaleString("en-IN")}
+                </p>
+                <p>
+                  Nurse: {first(item?.recordedBy?.name)} ({first(item?.recordedBy?.nurseId || item?.recordedBy?.userId)})
+                </p>
                 <p>BP: {item.bloodPressure || "-"}</p>
                 <p>Pulse: {item.pulse || "-"}</p>
                 <p>Temp: {item.temperature || "-"}</p>

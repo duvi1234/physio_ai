@@ -1,5 +1,3 @@
-const logger = require("../../config/logger");
-
 exports.sendSMS = async ({ to, message }) => {
   try {
     if (!to || !message) {
@@ -15,7 +13,7 @@ exports.sendSMS = async ({ to, message }) => {
       message: "SMS sent successfully"
     };
   } catch (error) {
-    logger.error("SMS Service Error:", error);
+    console.error("SMS Service Error:", error);
     return {
       success: false,
       message: error.message

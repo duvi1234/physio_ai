@@ -7,7 +7,7 @@ const ROLES = require("../../config/roles");
 router.get(
   "/",
   auth,
-  role(ROLES.ADMIN, ROLES.SUPER_ADMIN),
+  role(ROLES.ADMIN, ROLES.SUPER_ADMIN, ROLES.PATIENT),
   consultantController.listConsultants
 );
 

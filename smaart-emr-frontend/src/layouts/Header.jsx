@@ -1,12 +1,13 @@
 import { Bell, LogOut, Menu } from "lucide-react";
 import useAuth from "../hooks/useAuth";
 
-export default function Header({ title, onMenuClick }) {
+export default function Header({ title, onMenuClick, action }) {
   const { user, logout } = useAuth();
 
   const handleLogout = async () => {
     await logout();
-    window.location.href = "/staff/login";
+    const nextPath = String(user?.role || "").toUpperCase() === "PATIENT" ? "/patient/login" : "/staff/login";
+    window.location.href = nextPath;
   };
 
   return (
@@ -27,6 +28,7 @@ export default function Header({ title, onMenuClick }) {
         </div>
 
         <div className="flex items-center gap-3">
+          {action}
           <button type="button" className="rounded-xl border border-white/30 bg-white/20 p-2 text-slate-700">
             <Bell size={18} />
           </button>
