@@ -8,33 +8,33 @@ import './style.css';
 // --- Exercise Library: Physio Movements ---
 const EXERCISE_LIBRARY = {
   '360° Turn Test': {
-    info: 'Stand upright with feet shoulder-width apart. Slowly turn around in a full 360 degree circle while maintaining balance. Repeat the turn in the opposite direction without losing stability.',
+    info: '1. Upright Start\n2. Slow Turn Clockwise\n3. Pause & Stabilize\n4. Turn Counter-Clockwise\n5. Stable Finish',
     steps: [
-      { name: 'Upright Start', hips: { rot: { y: 0 } }, duration: 1 },
-      { name: 'Slow Turn Clockwise', hips: { rot: { y: Math.PI * 2 } }, duration: 4 },
-      { name: 'Pause & Stabilize', duration: 1 },
-      { name: 'Turn Counter-Clockwise', hips: { rot: { y: 0 } }, duration: 4 },
-      { name: 'Stable Finish', duration: 1 }
+      { name: 'Upright Start', hips: { rot: { y: 0 } }, duration: 2 },
+      { name: 'Slow Turn Clockwise', hips: { rot: { y: Math.PI * 2 } }, duration: 8 },
+      { name: 'Pause & Stabilize', duration: 2 },
+      { name: 'Turn Counter-Clockwise', hips: { rot: { y: 0 } }, duration: 8 },
+      { name: 'Stable Finish', duration: 2 }
     ]
   },
   'Active Assisted Knee Flexion': {
-    info: 'Lie face down on a bed or mat with legs straight. Bend the affected knee by bringing the heel toward the buttocks. Hold briefly and slowly return the leg to the starting position.',
+    info: '1. Step 1: Turn 180°\n2. Step 2: Lie Down Prone\n3. Step 3: Lift Leg (Bending Knee)\n4. Hold Stretch\n5. Lower Leg Slowly\n6. Return to Standing',
     steps: [
-      { name: 'Step 1: Turn 180°', hips: { rot: { y: Math.PI } }, duration: 1.5 },
+      { name: 'Step 1: Turn 180°', hips: { rot: { y: Math.PI } }, duration: 3 },
       {
         name: 'Step 2: Lie Down Prone',
         hips: { rot: { x: -Math.PI / 2, y: Math.PI }, pos: { y: 0.1, z: -0.8 } },
         neck: { y: 1.0 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Step 3: Lift Leg (Bending Knee)', leftLeg: { x: 1.8 }, duration: 3 },
-      { name: 'Hold Stretch', duration: 2 },
-      { name: 'Lower Leg Slowly', leftLeg: { x: 0 }, duration: 3 },
-      { name: 'Return to Standing', hips: { rot: { x: 0, y: 0 }, pos: { z: 0 } }, neck: { y: 0 }, duration: 2 }
+      { name: 'Step 3: Lift Leg (Bending Knee)', leftLeg: { x: 1.8 }, duration: 6 },
+      { name: 'Hold Stretch', duration: 4 },
+      { name: 'Lower Leg Slowly', leftLeg: { x: 0 }, duration: 6 },
+      { name: 'Return to Standing', hips: { rot: { x: 0, y: 0 }, pos: { z: 0 } }, neck: { y: 0 }, duration: 4 }
     ]
   },
   'Active Isometric Quads': {
-    info: 'Sit with the leg straight on the floor. Tighten the thigh quadriceps muscle by pressing the back of the knee downward. Hold the contraction for 5 seconds and then relax.',
+    info: '1. Step 1: Sit on Floor (Legs Forward)\n2. Step 2: Press Knee Down (Tighten Quads)\n3. Step 3: Hold Contraction (5s)\n4. Step 4: Relax Leg\n5. Return to Standing',
     steps: [
       {
         name: 'Step 1: Sit on Floor (Legs Forward)',
@@ -44,66 +44,66 @@ const EXERCISE_LIBRARY = {
         rightUpLeg: { x: -1.55 },
         leftLeg: { x: 0 },
         rightLeg: { x: 0 },
-        duration: 2
+        duration: 4
       },
-      { name: 'Step 2: Press Knee Down (Tighten Quads)', leftLeg: { x: 0.05 }, duration: 1.5 },
-      { name: 'Step 3: Hold Contraction (5s)', duration: 5 },
-      { name: 'Step 4: Relax Leg', leftLeg: { x: 0 }, duration: 1 },
+      { name: 'Step 2: Press Knee Down (Tighten Quads)', leftLeg: { x: 0.05 }, duration: 3 },
+      { name: 'Step 3: Hold Contraction (5s)', duration: 10 },
+      { name: 'Step 4: Relax Leg', leftLeg: { x: 0 }, duration: 2 },
       {
         name: 'Return to Standing',
         hips: { rot: { x: 0 }, pos: { z: 0 } },
         spine: { x: 0 },
         leftUpLeg: { x: 0 }, rightUpLeg: { x: 0 },
         leftLeg: { x: 0 }, rightLeg: { x: 0 },
-        duration: 2
+        duration: 4
       }
     ]
   },
   'Alt Arm & Leg Extension': {
-    info: 'Lie face down on the floor. Extend your left arm forward and your right leg backward at the same time. Hold, return, then repeat with the right arm and left leg.',
+    info: '1. Step 1: Turn 180°\n2. Step 2: Lie Face Down\n3. Step 3: Extend Left Arm & Right Leg\n4. Hold\n5. Step 4: Return to Prone Neutral\n6. Step 5: Extend Right Arm & Left Leg\n7. Hold\n8. Step 6: Return to Prone Neutral',
     steps: [
-      { name: 'Step 1: Turn 180°', modelRot: Math.PI, duration: 1.5 },
+      { name: 'Step 1: Turn 180°', modelRot: Math.PI, duration: 3 },
       {
         name: 'Step 2: Lie Face Down',
         hips: { rot: { x: -Math.PI / 2 }, pos: { y: 0.1, z: -0.8 } },
         leftShoulder: { x: 0, z: 0 }, rightShoulder: { x: 0, z: 0 },
         leftUpLeg: { x: 0 }, rightUpLeg: { x: 0 },
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Step 3: Extend Left Arm & Right Leg',
         spine: { x: -0.3 }, // Arch back to lift chest
         leftShoulder: { x: -2.0, y: 0, z: 0 }, // Lift arm higher UP
         rightUpLeg: { x: 1.2 }, // Lift leg higher UP
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold', duration: 2 },
+      { name: 'Hold', duration: 4 },
       {
         name: 'Step 4: Return to Prone Neutral',
         spine: { x: 0 },
         leftShoulder: { x: 0, y: 0, z: 0 },
         rightUpLeg: { x: 0 },
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'Step 5: Extend Right Arm & Left Leg',
         spine: { x: -0.3 }, // Arch back to lift chest
         rightShoulder: { x: -2.0, y: 0, z: 0 }, // Lift arm higher UP
         leftUpLeg: { x: 1.2 }, // Lift leg higher UP
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold', duration: 2 },
+      { name: 'Hold', duration: 4 },
       {
         name: 'Step 6: Return to Prone Neutral',
         spine: { x: 0 },
         rightShoulder: { x: 0, y: 0, z: 0 },
         leftUpLeg: { x: 0 },
-        duration: 1.5
+        duration: 3
       }
     ]
   },
   'Ankle Dorsiflexion Stretch': {
-    info: 'Position yourself in a half-kneeling stance. Your front foot stays flat as you glide your knee toward the wall boundary to test and improve ankle mobility.',
+    info: '1. Step 1: Half-Kneeling Stance\n2. Step 2: Glide Knee Forward\n3. Hold & Measure Range',
     steps: [
       {
         name: 'Step 1: Half-Kneeling Stance',
@@ -125,82 +125,82 @@ const EXERCISE_LIBRARY = {
         rightFoot: { x: 0, y: 0, z: 0 },
 
         camPos: { x: -1.8, y: 0.6, z: 2.2 }, camTarget: { x: 0, y: 0.3, z: 0 },
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Step 2: Glide Knee Forward',
         hips: { pos: { x: -0.15, y: 0.48, z: 0 } },
         leftLeg: { x: 1.8 }, // Forward knee bend
         leftFoot: { x: -0.5 }, // Ankle stretches forward
-        duration: 3
+        duration: 6
       },
-      { name: 'Hold & Measure Range', duration: 4 }
+      { name: 'Hold & Measure Range', duration: 8 }
     ]
   },
   'Ankle Pumps (Lying)': {
-    info: 'Lie on your back with legs extended. Move your feet up toward your shins and then point your toes away in a continuous cycle.',
+    info: '1. Step 1: Lie on Back\n2. Step 2: Toes Up\n3. Step 3: Toes Down\n4. Repeat Cycle\n5. Toes Down',
     steps: [
       {
         name: 'Step 1: Lie on Back', modelRot: 0,
         hips: { rot: { x: Math.PI / 2 }, pos: { y: 0.1, z: -0.8 } },
         camPos: { x: 1.5, y: 0.8, z: 2.5 }, camTarget: { x: 0, y: 0, z: -0.8 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Step 2: Toes Up', leftFoot: { x: -0.6 }, rightFoot: { x: -0.6 }, duration: 1.5 },
-      { name: 'Step 3: Toes Down', leftFoot: { x: 0.8 }, rightFoot: { x: 0.8 }, duration: 1.5 },
-      { name: 'Repeat Cycle', leftFoot: { x: -0.6 }, rightFoot: { x: -0.6 }, duration: 1.5 },
-      { name: 'Toes Down', leftFoot: { x: 0.8 }, rightFoot: { x: 0.8 }, duration: 1.5 }
+      { name: 'Step 2: Toes Up', leftFoot: { x: -0.6 }, rightFoot: { x: -0.6 }, duration: 3 },
+      { name: 'Step 3: Toes Down', leftFoot: { x: 0.8 }, rightFoot: { x: 0.8 }, duration: 3 },
+      { name: 'Repeat Cycle', leftFoot: { x: -0.6 }, rightFoot: { x: -0.6 }, duration: 3 },
+      { name: 'Toes Down', leftFoot: { x: 0.8 }, rightFoot: { x: 0.8 }, duration: 3 }
     ]
   },
   'Back Extension': {
-    info: 'Lie face down. Slowly lift your upper torso by extending your spine mientras las caderas permanecen en el suelo.',
+    info: '1. Step 1: Turn & Lie Down\n2. Step 2: Lift Torso\n3. Hold & Strength\n4. Step 3: Return to Floor',
     steps: [
       {
         name: 'Step 1: Turn & Lie Down', modelRot: Math.PI,
         hips: { rot: { x: Math.PI / 2 }, pos: { y: 0.1, z: 0.8 } },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Step 2: Lift Torso',
         spine: { x: -0.7 }, spine1: { x: -0.7 }, neck: { x: -0.3 },
         camPos: { x: -1.5, y: 0.8, z: 1.5 }, camTarget: { x: 0, y: 0.4, z: 0.8 },
-        duration: 3
+        duration: 6
       },
-      { name: 'Hold & Strength', duration: 2 },
+      { name: 'Hold & Strength', duration: 4 },
       {
         name: 'Step 3: Return to Floor',
         spine: { x: 0 }, spine1: { x: 0 }, neck: { x: 0 },
-        duration: 2
+        duration: 4
       }
     ]
   },
   'Back Stepping': {
-    info: 'From a standing position, move one leg backward while keeping the other leg forward. Shift your weight slightly and return to center.',
+    info: '1. Step 1: Step Back Left\n2. Step 2: Return Center\n3. Step 3: Step Back Right\n4. Step 4: Return Center',
     steps: [
       {
         name: 'Step 1: Step Back Left',
         leftUpLeg: { x: 0.6 }, leftLeg: { x: 0.4 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Step 2: Return Center',
         leftUpLeg: { x: 0 }, leftLeg: { x: 0 },
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'Step 3: Step Back Right',
         rightUpLeg: { x: 0.6 }, rightLeg: { x: 0.4 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Step 4: Return Center',
         rightUpLeg: { x: 0 }, rightLeg: { x: 0 },
-        duration: 1.5
+        duration: 3
       }
     ]
   },
   'Back Walking': {
-    info: 'Walk backward slowly, alternating legs. Keep your hands relaxed at your sides to maintain a steady posture.',
+    info: '1. Step 1: Left Leg Back\n2. Step 2: Right Leg Back\n3. Step 3: Left Leg Back\n4. Step 4: Right Leg Back\n5. Step 5: Left Leg Back\n6. Step 6: Right Leg Back',
     steps: [
       {
         name: 'Step 1: Left Leg Back',
@@ -208,7 +208,7 @@ const EXERCISE_LIBRARY = {
         hips: { pos: { x: 0.05 } },
         leftUpLeg: { x: -0.6 }, leftLeg: { x: 0.2 }, leftFoot: { x: -0.3 },
         leftShoulder: { x: 0 }, rightShoulder: { x: 0 },
-        duration: 1.8
+        duration: 3.6
       },
       {
         name: 'Step 2: Right Leg Back',
@@ -216,7 +216,7 @@ const EXERCISE_LIBRARY = {
         leftUpLeg: { x: 0 }, leftLeg: { x: 0 }, leftFoot: { x: 0 },
         rightUpLeg: { x: -0.6 }, rightLeg: { x: 0.2 }, rightFoot: { x: -0.3 },
         leftShoulder: { x: 0 }, rightShoulder: { x: 0 },
-        duration: 1.8
+        duration: 3.6
       },
       {
         name: 'Step 3: Left Leg Back',
@@ -224,7 +224,7 @@ const EXERCISE_LIBRARY = {
         rightUpLeg: { x: 0 }, rightLeg: { x: 0 }, rightFoot: { x: 0 },
         leftUpLeg: { x: -0.6 }, leftLeg: { x: 0.2 }, leftFoot: { x: -0.3 },
         leftShoulder: { x: 0 }, rightShoulder: { x: 0 },
-        duration: 1.8
+        duration: 3.6
       },
       {
         name: 'Step 4: Right Leg Back',
@@ -232,7 +232,7 @@ const EXERCISE_LIBRARY = {
         leftUpLeg: { x: 0 }, leftLeg: { x: 0 }, leftFoot: { x: 0 },
         rightUpLeg: { x: -0.6 }, rightLeg: { x: 0.2 }, rightFoot: { x: -0.3 },
         leftShoulder: { x: 0 }, rightShoulder: { x: 0 },
-        duration: 1.8
+        duration: 3.6
       },
       {
         name: 'Step 5: Left Leg Back',
@@ -240,7 +240,7 @@ const EXERCISE_LIBRARY = {
         rightUpLeg: { x: 0 }, rightLeg: { x: 0 }, rightFoot: { x: 0 },
         leftUpLeg: { x: -0.6 }, leftLeg: { x: 0.2 }, leftFoot: { x: -0.3 },
         leftShoulder: { x: 0 }, rightShoulder: { x: 0 },
-        duration: 1.8
+        duration: 3.6
       },
       {
         name: 'Step 6: Right Leg Back',
@@ -248,12 +248,12 @@ const EXERCISE_LIBRARY = {
         leftUpLeg: { x: 0 }, leftLeg: { x: 0 }, leftFoot: { x: 0 },
         rightUpLeg: { x: -0.6 }, rightLeg: { x: 0.2 }, rightFoot: { x: -0.3 },
         leftShoulder: { x: 0 }, rightShoulder: { x: 0 },
-        duration: 1.8
+        duration: 3.6
       }
     ]
   },
   'Backward Lunge': {
-    info: 'Step one leg backward and lower your body until both knees reach a 90-degree angle. Keep your chest upright and Return to the start.',
+    info: '1. Step 1: Left Leg Back\n2. Step 2: Return Center\n3. Step 3: Right Leg Back\n4. Step 4: Return Center',
     steps: [
       {
         name: 'Step 1: Left Leg Back',
@@ -265,14 +265,14 @@ const EXERCISE_LIBRARY = {
         // Back (Left)
         leftUpLeg: { x: -1.2 }, leftLeg: { x: 1.6 },
         camPos: { x: 2.2, y: 1.0, z: 2.2 }, camTarget: { x: 0, y: 0.4, z: 0 },
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Step 2: Return Center',
         hips: { pos: { z: 0 } },
         rightUpLeg: { x: 0 }, rightLeg: { x: 0 },
         leftUpLeg: { x: 0 }, leftLeg: { x: 0 },
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'Step 3: Right Leg Back',
@@ -281,19 +281,19 @@ const EXERCISE_LIBRARY = {
         leftUpLeg: { x: 0.8 }, leftLeg: { x: 1.0 },
         // Back (Right)
         rightUpLeg: { x: -1.2 }, rightLeg: { x: 1.6 },
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Step 4: Return Center',
         hips: { pos: { z: 0 } },
         rightUpLeg: { x: 0 }, rightLeg: { x: 0 },
         leftUpLeg: { x: 0 }, leftLeg: { x: 0 },
-        duration: 1.5
+        duration: 3
       }
     ]
   },
   'Backward Walking (Eyes Open)': {
-    info: 'Maintain a straight posture and look forward. Take slow, deliberate steps backward while keeping your hands at your sides.',
+    info: '1. Left Step Back (Slow)\n2. Right Step Back (Slow)',
     steps: [
       {
         name: 'Left Step Back (Slow)',
@@ -301,19 +301,19 @@ const EXERCISE_LIBRARY = {
         hips: { pos: { x: 0.03 } },
         leftUpLeg: { x: -0.4 }, leftLeg: { x: 0.1 },
         leftShoulder: { x: 0 }, rightShoulder: { x: 0 },
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Right Step Back (Slow)',
         hips: { pos: { x: -0.03 } },
         leftUpLeg: { x: 0 }, rightUpLeg: { x: -0.4 }, rightLeg: { x: 0.1 },
         leftShoulder: { x: 0 }, rightShoulder: { x: 0 },
-        duration: 2.5
+        duration: 5
       }
     ]
   },
   'Bicep Chest Stretch': {
-    info: 'Stand with one arm back against a wall. Turn your body away from the wall to stretch your chest and arm.',
+    info: '1. Arm Back\n2. Deepen Stretch',
     steps: [
       {
         name: 'Arm Back',
@@ -321,31 +321,31 @@ const EXERCISE_LIBRARY = {
         rightShoulder: { y: -1.57, z: 0.2 },
         spine: { y: 0.5 },
         camPos: { x: 1.5, y: 1.4, z: 2.5 }, camTarget: { x: 0, y: 1.2, z: 0 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Deepen Stretch', spine: { y: 0.8 }, duration: 3 }
+      { name: 'Deepen Stretch', spine: { y: 0.8 }, duration: 6 }
     ]
   },
 
   'Seated Bilateral Trunk Rotation Stretch': {
-    info: 'Rotate your upper torso slowly to one side while keeping your hips facing forward.',
+    info: '1. Rotate Left\n2. Center\n3. Rotate Right\n4. Center',
     steps: [
       {
         name: 'Rotate Left',
         spine: { y: 0.6 }, spine1: { y: 0.4 }, neck: { y: 0.3 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Center', spine: { y: 0 }, spine1: { y: 0 }, neck: { y: 0 }, duration: 1.5 },
+      { name: 'Center', spine: { y: 0 }, spine1: { y: 0 }, neck: { y: 0 }, duration: 3 },
       {
         name: 'Rotate Right',
         spine: { y: -0.6 }, spine1: { y: -0.4 }, neck: { y: -0.3 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Center', spine: { y: 0 }, spine1: { y: 0 }, duration: 1.5 }
+      { name: 'Center', spine: { y: 0 }, spine1: { y: 0 }, duration: 3 }
     ]
   },
   'Bird Dog': {
-    info: 'From a hands-and-knees position, extend one arm forward and the opposite leg backward parallel to the ground.',
+    info: '1. Tabletop Setup\n2. Extend L-Arm & R-Leg\n3. Hold Balance\n4. Return to Tabletop\n5. Extend R-Arm & L-Leg\n6. Hold Balance',
     steps: [
       {
         name: 'Tabletop Setup',
@@ -356,35 +356,35 @@ const EXERCISE_LIBRARY = {
         leftUpLeg: { x: -1.57, y: 0, z: 0.1 }, rightUpLeg: { x: -1.57, y: 0, z: -0.1 },
         leftLeg: { x: 1.57 }, rightLeg: { x: 1.57 },
         camPos: { x: 3.5, y: 1.5, z: 3.5 }, camTarget: { x: 0, y: 0.5, z: 0 },
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Extend L-Arm & R-Leg',
         leftArm: { x: 0, y: 0, z: 0 }, // Reach FRONT (Flat palm)
         rightUpLeg: { x: 0, y: 0, z: -0.1 }, // Reach BACK
         rightLeg: { x: 0 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold Balance', duration: 2 },
+      { name: 'Hold Balance', duration: 4 },
       {
         name: 'Return to Tabletop',
         leftArm: { x: 1.57, z: 0 },
         rightUpLeg: { x: -1.57, z: -0.1 },
         rightLeg: { x: 1.57 },
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'Extend R-Arm & L-Leg',
         rightArm: { x: 0, y: 0, z: 0 }, // Reach FRONT (Flat palm)
         leftUpLeg: { x: 0, y: 0, z: 0.1 },
         leftLeg: { x: 0 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold Balance', duration: 2 }
+      { name: 'Hold Balance', duration: 4 }
     ]
   },
   'Bow and Arrow': {
-    info: 'Draw one arm back like pulling a bowstring while the other arm stays extended in front.',
+    info: '1. Start Position\n2. Draw Left\n3. Return Center\n4. Draw Right\n5. Return Center',
     steps: [
       {
         name: 'Start Position',
@@ -400,7 +400,7 @@ const EXERCISE_LIBRARY = {
 
         camPos: { x: 2.5, y: 1.5, z: 3.5 },
         camTarget: { x: 0, y: 1.2, z: 0 },
-        duration: 2,
+        duration: 4,
         band: true
       },
 
@@ -416,7 +416,7 @@ const EXERCISE_LIBRARY = {
         rightArm: { x: 1.57, y: -0.5, z: -1.4 },
         rightForeArm: { x: 0 },
 
-        duration: 2.5
+        duration: 5
       },
 
       {
@@ -430,7 +430,7 @@ const EXERCISE_LIBRARY = {
         rightArm: { x: 1.57, y: 0, z: -1.4 },
         rightForeArm: { x: 0 },
 
-        duration: 2
+        duration: 4
       },
 
       {
@@ -445,7 +445,7 @@ const EXERCISE_LIBRARY = {
         leftArm: { x: 1.57, y: 0.5, z: 1.4 },
         leftForeArm: { x: 0 },
 
-        duration: 2.5
+        duration: 5
       },
 
       {
@@ -459,13 +459,13 @@ const EXERCISE_LIBRARY = {
         leftArm: { x: 1.57, y: 0, z: 1.4 },
         leftForeArm: { x: 0 },
 
-        duration: 2
+        duration: 4
       }
     ]
   },
 
   'Brandt–Daroff Exercise': {
-    info: 'Specifically for vestibular rehab. Lie down onto your side quickly with your head angled toward the ceiling, then return to sit.',
+    info: '1. Sit Upright\n2. Lie on Right Side\n3. Stabilize (Hold 5s)\n4. Return Upright (Center)\n5. Pause\n6. Lie on Left Side\n7. Stabilize (Hold 5s)\n8. Return Upright (Center)',
     steps: [
       {
         name: 'Sit Upright',
@@ -476,7 +476,7 @@ const EXERCISE_LIBRARY = {
         leftUpLeg: { x: -1.57 }, rightUpLeg: { x: -1.57 },
         leftLeg: { x: 1.57 }, rightLeg: { x: 1.57 },
         camPos: { x: 2.5, y: 1.2, z: 3.5 }, camTarget: { x: 0, y: 0.8, z: 0 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Lie on Right Side',
@@ -485,9 +485,9 @@ const EXERCISE_LIBRARY = {
         leftUpLeg: { x: 0 }, rightUpLeg: { x: 0 },
         leftLeg: { x: 0 }, rightLeg: { x: 0 },
         neck: { y: -0.8, x: 0.3 }, // Head tilted toward ceiling (looking 45 deg up)
-        duration: 1.5
+        duration: 3
       },
-      { name: 'Stabilize (Hold 5s)', duration: 5 },
+      { name: 'Stabilize (Hold 5s)', duration: 10 },
       {
         name: 'Return Upright (Center)',
         hips: { rot: { z: 0 }, pos: { x: 0, y: 0.55 } },
@@ -495,9 +495,9 @@ const EXERCISE_LIBRARY = {
         leftUpLeg: { x: -1.57 }, rightUpLeg: { x: -1.57 },
         leftLeg: { x: 1.57 }, rightLeg: { x: 1.57 },
         neck: { y: 0, x: 0 },
-        duration: 1.8
+        duration: 3.6
       },
-      { name: 'Pause', duration: 1.5 },
+      { name: 'Pause', duration: 3 },
       {
         name: 'Lie on Left Side',
         hips: { rot: { z: -1.45 }, pos: { x: 0.4, y: 0.15 } }, // Tilt to left
@@ -505,9 +505,9 @@ const EXERCISE_LIBRARY = {
         leftUpLeg: { x: 0 }, rightUpLeg: { x: 0 },
         leftLeg: { x: 0 }, rightLeg: { x: 0 },
         neck: { y: 0.8, x: 0.3 }, // Head tilted toward ceiling
-        duration: 1.5
+        duration: 3
       },
-      { name: 'Stabilize (Hold 5s)', duration: 5 },
+      { name: 'Stabilize (Hold 5s)', duration: 10 },
       {
         name: 'Return Upright (Center)',
         hips: { rot: { z: 0 }, pos: { x: 0, y: 0.55 } },
@@ -515,13 +515,13 @@ const EXERCISE_LIBRARY = {
         leftUpLeg: { x: -1.57 }, rightUpLeg: { x: -1.57 },
         leftLeg: { x: 1.57 }, rightLeg: { x: 1.57 },
         neck: { y: 0, x: 0 },
-        duration: 1.8
+        duration: 3.6
       }
     ]
   },
 
   'Camel and Cat Stretch': {
-    info: 'From an all-fours position, alternate between rounding your back toward the ceiling and arching it toward the floor. Maintain a stable quadruped position like an animal.',
+    info: '1. Initial Standing Pose\n2. Descending to Floor\n3. Neutral Tabletop\n4. Cat Position (Round UP)\n5. Hold Cat Stretch\n6. Camel Position (Arch DOWN)\n7. Hold Camel Stretch\n8. Return to Neutral',
     steps: [
       {
         name: 'Initial Standing Pose',
@@ -531,7 +531,7 @@ const EXERCISE_LIBRARY = {
         leftUpLeg: { x: 0 }, rightUpLeg: { x: 0 },
         leftLeg: { x: 0 }, rightLeg: { x: 0 },
         camPos: { x: 2.2, y: 1.4, z: 3.5 }, camTarget: { x: 0, y: 1.0, z: 0 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Descending to Floor',
@@ -540,7 +540,7 @@ const EXERCISE_LIBRARY = {
         leftArm: { x: 0, z: 1.4 }, rightArm: { x: 0, z: -1.4 }, // Hands tucked near legs
         leftUpLeg: { x: -1.57, z: 0.1 }, rightUpLeg: { x: -1.57, z: -0.1 },
         leftLeg: { x: 1.57 }, rightLeg: { x: 1.57 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Neutral Tabletop',
@@ -549,7 +549,7 @@ const EXERCISE_LIBRARY = {
         leftArm: { x: 1.57, z: 1.4 }, rightArm: { x: 1.57, z: -1.4 },
         leftForeArm: { x: 0 }, rightForeArm: { x: 0 },
         camPos: { x: 2.5, y: 1.5, z: 3.0 }, camTarget: { x: 0, y: 0.5, z: 0 },
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'Cat Position (Round UP)',
@@ -557,30 +557,30 @@ const EXERCISE_LIBRARY = {
         neck: { x: 0 },
         // Tucked vertical hands
         leftArm: { x: 0.77, z: 1.4 }, rightArm: { x: 0.77, z: -1.4 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold Cat Stretch', duration: 1.5 },
+      { name: 'Hold Cat Stretch', duration: 3 },
       {
         name: 'Camel Position (Arch DOWN)',
         spine: { x: -0.6 }, spine1: { x: -0.4 },
         neck: { x: 0 },
         // Tucked vertical hands
         leftArm: { x: 2.17, z: 1.4 }, rightArm: { x: 2.17, z: -1.4 },
-        duration: 3
+        duration: 6
       },
-      { name: 'Hold Camel Stretch', duration: 1.5 },
+      { name: 'Hold Camel Stretch', duration: 3 },
       {
         name: 'Return to Neutral',
         spine: { x: 0 }, spine1: { x: 0 },
         leftArm: { x: 1.57, z: 1.4 }, rightArm: { x: 1.57, z: -1.4 },
         neck: { x: 0 },
-        duration: 2
+        duration: 4
       }
     ]
   },
 
   'Chest Stretch': {
-    info: 'Stand tall and open your chest by pulling your arms back and together behind you.',
+    info: '1. Stand Neutral\n2. Expand Chest\n3. Hold Stretch (5s)\n4. Relax',
     steps: [
       {
         name: 'Stand Neutral',
@@ -589,7 +589,7 @@ const EXERCISE_LIBRARY = {
         spine: { x: 0 }, spine1: { x: 0 },
         leftArm: { x: 0, z: 1.4 }, rightArm: { x: 0, z: -1.4 },
         camPos: { x: 2.2, y: 1.4, z: 3.5 }, camTarget: { x: 0, y: 1.2, z: 0 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Expand Chest',
@@ -597,21 +597,21 @@ const EXERCISE_LIBRARY = {
         rightArm: { x: -0.4, y: -0.5, z: -1.3 },
         leftShoulder: { y: 0.3 }, rightShoulder: { y: -0.3 }, // Scapular retraction
         spine1: { x: -0.1 }, // Chest opens up
-        duration: 3
+        duration: 6
       },
-      { name: 'Hold Stretch (5s)', duration: 5 },
+      { name: 'Hold Stretch (5s)', duration: 10 },
       {
         name: 'Relax',
         leftArm: { x: 0, z: 1.4 }, rightArm: { x: 0, z: -1.4 },
         leftShoulder: { y: 0 }, rightShoulder: { y: 0 },
         spine1: { x: 0 },
-        duration: 2
+        duration: 4
       }
     ]
   },
 
   'Cobra': {
-    info: 'Lying face down, press your hands against the floor to lift your chest while keeping your hips on the ground.',
+    info: '1. Prone Setup\n2. Lift Upper Torso\n3. Hold Stretch (3s)\n4. Return to Floor',
     steps: [
       {
         name: 'Prone Setup',
@@ -624,7 +624,7 @@ const EXERCISE_LIBRARY = {
         leftUpLeg: { x: 0 }, rightUpLeg: { x: 0 },
         leftLeg: { x: 0 }, rightLeg: { x: 0 },
         camPos: { x: 2.5, y: 1.0, z: 2.5 }, camTarget: { x: 0, y: 0.3, z: 0 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Lift Upper Torso',
@@ -633,22 +633,22 @@ const EXERCISE_LIBRARY = {
         leftArm: { x: 1.5, z: 1.4 }, rightArm: { x: 1.5, z: -1.4 },
         leftForeArm: { x: 0.5 }, rightForeArm: { x: 0.5 },
         neck: { x: -0.2 }, // Look forward
-        duration: 3
+        duration: 6
       },
-      { name: 'Hold Stretch (3s)', duration: 3 },
+      { name: 'Hold Stretch (3s)', duration: 6 },
       {
         name: 'Return to Floor',
         spine: { x: 0 }, spine1: { x: 0 },
         leftArm: { x: 0.5 }, rightArm: { x: 0.5 },
         leftForeArm: { x: 1.0 }, rightForeArm: { x: 1.0 },
         neck: { x: 0 },
-        duration: 3
+        duration: 6
       }
     ]
   },
 
   'Corner Stretch': {
-    info: 'Stand in a corner with arms raised to shoulder height on the walls, and reach forward into the corner while maintaining a stable posture.',
+    info: '1. Face Corner Setup\n2. Reach Forward\n3. Hold Stretch (5s)\n4. Return to Setup',
     steps: [
       {
         name: 'Face Corner Setup',
@@ -660,7 +660,7 @@ const EXERCISE_LIBRARY = {
         rightArm: { x: 1.4, y: 0.7, z: -1.0 },
         leftForeArm: { x: 0.6 }, rightForeArm: { x: 0.6 },
         camPos: { x: 3.2, y: 1.5, z: 2.0 }, camTarget: { x: 0, y: 1.3, z: 0 },
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Reach Forward',
@@ -670,7 +670,7 @@ const EXERCISE_LIBRARY = {
         leftArm: { x: 1.57, y: -0.7, z: 1.0 },
         rightArm: { x: 1.57, y: 0.7, z: -1.0 },
         leftForeArm: { x: 0.6 }, rightForeArm: { x: 0.6 },
-        duration: 3
+        duration: 6
       },
       {
         name: 'Hold Stretch (5s)',
@@ -680,7 +680,7 @@ const EXERCISE_LIBRARY = {
         leftArm: { x: 1.57, y: -0.7, z: 1.0 },
         rightArm: { x: 1.57, y: 0.7, z: -1.0 },
         leftForeArm: { x: 0.6 }, rightForeArm: { x: 0.6 },
-        duration: 5
+        duration: 10
       },
       {
         name: 'Return to Setup',
@@ -689,13 +689,13 @@ const EXERCISE_LIBRARY = {
         leftArm: { x: 1.4, y: -0.7, z: 1.0 },
         rightArm: { x: 1.4, y: 0.7, z: -1.0 },
         leftForeArm: { x: 0.6 }, rightForeArm: { x: 0.6 },
-        duration: 2
+        duration: 4
       }
     ]
   },
 
   'Crook Lying Pelvic Tilt': {
-    info: 'Lie on your back with knees bent and feet flat. Gently tilt your pelvis to flatten your lower back against the floor by engaging your abdominal muscles.',
+    info: '1. Supine Setup (Knees Bent)\n2. Tilt Pelvis (Flatten Back)\n3. Hold Contraction\n4. Relax to Neutral',
     steps: [
       {
         name: 'Supine Setup (Knees Bent)',
@@ -712,26 +712,26 @@ const EXERCISE_LIBRARY = {
         leftFoot: { x: -0.4, y: 0, z: 0 },
         rightFoot: { x: -0.4, y: 0, z: 0 },
         camPos: { x: 2.2, y: 1.4, z: 2.2 }, camTarget: { x: 0, y: 0.4, z: 0 },
-        duration: 3
+        duration: 6
       },
       {
         name: 'Tilt Pelvis (Flatten Back)',
         // Isolate movement to pelvis: subtle rotation, no translation
         hips: { rot: { x: -1.68 } },
         spine: { x: 0.12 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold Contraction', duration: 2 },
+      { name: 'Hold Contraction', duration: 4 },
       {
         name: 'Relax to Neutral',
         hips: { rot: { x: -Math.PI / 2 } },
         spine: { x: 0 },
-        duration: 2
+        duration: 4
       }
     ]
   },
   'Diagonal Stepping To The Back': {
-    info: 'Stand upright with feet hip-width apart. Step one leg diagonally backward at a 45° angle while keeping your torso upright. Shift your weight slightly onto the back leg, then return to the starting position.',
+    info: '1. Neutral Start\n2. Step Right Diagonal Back\n3. Hold & Weight Shift\n4. Return to Center\n5. Step Left Diagonal Back\n6. Hold & Weight Shift\n7. Return to Center',
     steps: [
       {
         name: 'Neutral Start',
@@ -740,7 +740,7 @@ const EXERCISE_LIBRARY = {
         spine: { x: 0, y: 0, z: 0 },
         leftUpLeg: { x: 0, y: 0, z: 0 }, rightUpLeg: { x: 0, y: 0, z: 0 },
         leftLeg: { x: 0 }, rightLeg: { x: 0 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Step Right Diagonal Back',
@@ -748,15 +748,15 @@ const EXERCISE_LIBRARY = {
         rightUpLeg: { x: 0.7, y: 0, z: -0.2 },
         rightLeg: { x: 0.35 },
         hips: { pos: { x: 0.04, z: -0.15 } },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold & Weight Shift', duration: 2 },
+      { name: 'Hold & Weight Shift', duration: 4 },
       {
         name: 'Return to Center',
         rightUpLeg: { x: 0, z: 0 },
         rightLeg: { x: 0 },
         hips: { pos: { x: 0, z: 0 } },
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'Step Left Diagonal Back',
@@ -764,20 +764,20 @@ const EXERCISE_LIBRARY = {
         leftUpLeg: { x: 0.7, y: 0, z: 0.2 },
         leftLeg: { x: 0.35 },
         hips: { pos: { x: -0.04, z: -0.15 } },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold & Weight Shift', duration: 2 },
+      { name: 'Hold & Weight Shift', duration: 4 },
       {
         name: 'Return to Center',
         leftUpLeg: { x: 0, z: 0 },
         leftLeg: { x: 0 },
         hips: { pos: { x: 0, z: 0 } },
-        duration: 1.5
+        duration: 3
       }
     ]
   },
   'Diagonal Stepping To The Back Both Side': {
-    info: 'Stand upright with feet shoulder-width apart. Step diagonally backward with your right leg at a 45° angle, return to center, and then repeat with your left leg. Maintain an upright torso throughout.',
+    info: '1. Neutral Setup\n2. Right Diagonal Step\n3. Return Center\n4. Left Diagonal Step\n5. Return Center',
     steps: [
       {
         name: 'Neutral Setup',
@@ -787,7 +787,7 @@ const EXERCISE_LIBRARY = {
         leftUpLeg: { x: 0, y: 0, z: 0 }, rightUpLeg: { x: 0, y: 0, z: 0 },
         leftLeg: { x: 0 }, rightLeg: { x: 0 },
         leftArm: { z: 1.4 }, rightArm: { z: -1.4 }, // Arms relaxed at sides
-        duration: 2
+        duration: 4
       },
       {
         name: 'Right Diagonal Step',
@@ -795,13 +795,13 @@ const EXERCISE_LIBRARY = {
         rightUpLeg: { x: 0.65, y: 0, z: -0.35 },
         rightLeg: { x: 0.3 },
         hips: { pos: { x: 0.04, z: -0.12 } }, // Balanced weight shift
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Return Center',
         rightUpLeg: { x: 0, z: 0 }, rightLeg: { x: 0 },
         hips: { pos: { x: 0, z: 0 } },
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'Left Diagonal Step',
@@ -809,18 +809,18 @@ const EXERCISE_LIBRARY = {
         leftUpLeg: { x: 0.65, y: 0, z: 0.35 },
         leftLeg: { x: 0.3 },
         hips: { pos: { x: -0.04, z: -0.12 } },
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Return Center',
         leftUpLeg: { x: 0, z: 0 }, leftLeg: { x: 0 },
         hips: { pos: { x: 0, z: 0 } },
-        duration: 1.5
+        duration: 3
       }
     ]
   },
   'Diagonal Stepping To The Front': {
-    info: 'Stand upright with arms relaxed. Step one leg diagonally forward at a 45° angle, shifting your weight onto the front leg while keeping your torso straight. Return to the start and repeat.',
+    info: '1. Neutral Start\n2. Right Forward Diagonal Step\n3. Return\n4. Left Forward Diagonal Step\n5. Return',
     steps: [
       {
         name: 'Neutral Start',
@@ -829,7 +829,7 @@ const EXERCISE_LIBRARY = {
         spine: { x: 0, y: 0, z: 0 },
         leftUpLeg: { x: 0, y: 0, z: 0 }, rightUpLeg: { x: 0, y: 0, z: 0 },
         leftLeg: { x: 0 }, rightLeg: { x: 0 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Right Forward Diagonal Step',
@@ -837,13 +837,13 @@ const EXERCISE_LIBRARY = {
         rightUpLeg: { x: -0.7, y: 0, z: -0.35 },
         rightLeg: { x: 0.4 }, // Knee bend for weight shift support
         hips: { pos: { x: 0.05, z: 0.15 } }, // Forward weight shift
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Return',
         rightUpLeg: { x: 0, z: 0 }, rightLeg: { x: 0 },
         hips: { pos: { x: 0, z: 0 } },
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'Left Forward Diagonal Step',
@@ -851,18 +851,18 @@ const EXERCISE_LIBRARY = {
         leftUpLeg: { x: -0.7, y: 0, z: 0.35 },
         leftLeg: { x: 0.4 },
         hips: { pos: { x: -0.05, z: 0.15 } },
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Return',
         leftUpLeg: { x: 0, z: 0 }, leftLeg: { x: 0 },
         hips: { pos: { x: 0, z: 0 } },
-        duration: 1.5
+        duration: 3
       }
     ]
   },
   'Diagonal Stepping To The Front Both Side': {
-    info: 'Stand upright with feet hip-width apart. Step diagonally forward with the right leg, return to center, and then step diagonally forward with the left leg. Alternate sides smoothly while maintaining a stable torso.',
+    info: '1. Neutral Setup\n2. Right Diagonal Step\n3. Return Center\n4. Left Diagonal Step\n5. Return Center',
     steps: [
       {
         name: 'Neutral Setup',
@@ -871,38 +871,38 @@ const EXERCISE_LIBRARY = {
         spine: { x: 0, y: 0, z: 0 },
         leftUpLeg: { x: 0, y: 0, z: 0 }, rightUpLeg: { x: 0, y: 0, z: 0 },
         leftLeg: { x: 0 }, rightLeg: { x: 0 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Right Diagonal Step',
         rightUpLeg: { x: -0.65, y: 0, z: -0.35 },
         rightLeg: { x: 0.35 },
         hips: { pos: { x: 0.04, z: 0.12 } }, // Forward weight shift
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Return Center',
         rightUpLeg: { x: 0, z: 0 }, rightLeg: { x: 0 },
         hips: { pos: { x: 0, z: 0 } },
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'Left Diagonal Step',
         leftUpLeg: { x: -0.65, y: 0, z: 0.35 },
         leftLeg: { x: 0.35 },
         hips: { pos: { x: -0.04, z: 0.12 } },
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Return Center',
         leftUpLeg: { x: 0, z: 0 }, leftLeg: { x: 0 },
         hips: { pos: { x: 0, z: 0 } },
-        duration: 1.5
+        duration: 3
       }
     ]
   },
   'Diagonal Trunk Rotation': {
-    info: 'Stand with feet shoulder-width apart. Rotate your upper torso diagonally to one side while keeping your hips stable. This movement stretches and strengthens the core and spine.',
+    info: '1. Start Position\n2. Rotate Left Diagonal\n3. Return to Center\n4. Rotate Right Diagonal\n5. Return to Center',
     steps: [
       {
         name: 'Start Position',
@@ -915,7 +915,7 @@ const EXERCISE_LIBRARY = {
         rightArm: { x: 0.8, y: -0.2, z: -1.2 },
         leftForeArm: { x: 0.5 },
         rightForeArm: { x: 0.5 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Rotate Left Diagonal',
@@ -924,33 +924,33 @@ const EXERCISE_LIBRARY = {
         spine1: { y: 0.5, x: 0.1 },
         // Hips stay mostly forward (slight reaction for realism)
         hips: { rot: { y: 0.1 } },
-        duration: 3
+        duration: 6
       },
       {
         name: 'Return to Center',
         spine: { y: 0, x: 0 },
         spine1: { y: 0, x: 0 },
         hips: { rot: { y: 0 } },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Rotate Right Diagonal',
         spine: { y: -0.7, x: 0.1 },
         spine1: { y: -0.5, x: 0.1 },
         hips: { rot: { y: -0.1 } },
-        duration: 3
+        duration: 6
       },
       {
         name: 'Return to Center',
         spine: { y: 0, x: 0 },
         spine1: { y: 0, x: 0 },
         hips: { rot: { y: 0 } },
-        duration: 2
+        duration: 4
       }
     ]
   },
   'Diaphragmatic Breathing': {
-    info: 'Lie on your back with knees bent and your right hand on your abdomen. Breathe in deeply through your nose, letting your belly rise while keeping your chest stable. Breathe out slowly through your mouth, feeling your belly fall.',
+    info: '1. Supine Crook-Lying Setup\n2. Inhale (Belly Rises)\n3. Exhale (Belly Falls)\n4. Slow Rhythmic Inhale\n5. Slow Rhythmic Exhale',
     steps: [
       {
         name: 'Supine Crook-Lying Setup',
@@ -967,33 +967,33 @@ const EXERCISE_LIBRARY = {
         // Left arm at side
         leftArm: { z: 1.3 },
         camPos: { x: 3.5, y: 2.2, z: 3.5 }, camTarget: { x: 0, y: 0.2, z: 0 },
-        duration: 3
+        duration: 6
       },
       {
         name: 'Inhale (Belly Rises)',
         // Simulate abdominal rise
         spine: { pos: { y: 0.12 } },
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Exhale (Belly Falls)',
         spine: { pos: { y: 0.091 } }, // Return to neutral
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Slow Rhythmic Inhale',
         spine: { pos: { y: 0.12 } },
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Slow Rhythmic Exhale',
         spine: { pos: { y: 0.091 } },
-        duration: 2.5
+        duration: 5
       }
     ]
   },
   'Dynamic Hamstring Sweep': {
-    info: 'Stand tall. Step one foot forward on the heel with toes pointing up. Keep that leg straight as you bend at your hips and sweep your hands down toward your toes in a fluid motion. Return to standing and repeat with the other leg.',
+    info: '1. Neutral Standing\n2. Right Heel Step & Toe Up\n3. The Sweep (Downward)\n4. Return Upright\n5. Left Heel Step & Toe Up\n6. The Sweep (Downward)\n7. Final Recovery',
     steps: [
       {
         name: 'Neutral Standing',
@@ -1003,7 +1003,7 @@ const EXERCISE_LIBRARY = {
         leftArm: { z: 1.3 }, rightArm: { z: -1.3 },
         leftUpLeg: { x: 0 }, rightUpLeg: { x: 0 },
         leftFoot: { x: 0 }, rightFoot: { x: 0 },
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'Right Heel Step & Toe Up',
@@ -1011,7 +1011,7 @@ const EXERCISE_LIBRARY = {
         rightFoot: { x: -0.6 },  // Toe UP
         leftUpLeg: { x: 0.1 },   // Slight back shift for balance
         leftLeg: { x: 0.3 },     // Slight knee bend on back leg
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'The Sweep (Downward)',
@@ -1020,7 +1020,7 @@ const EXERCISE_LIBRARY = {
         rightArm: { x: 1.3, z: -0.6 },
         leftForeArm: { x: 0.8 },
         rightForeArm: { x: 0.8 },
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Return Upright',
@@ -1029,7 +1029,7 @@ const EXERCISE_LIBRARY = {
         leftForeArm: { x: 0 }, rightForeArm: { x: 0 },
         rightUpLeg: { x: 0 }, leftUpLeg: { x: 0 },
         rightFoot: { x: 0 }, rightLeg: { x: 0 }, leftLeg: { x: 0 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Left Heel Step & Toe Up',
@@ -1037,7 +1037,7 @@ const EXERCISE_LIBRARY = {
         leftFoot: { x: -0.6 },
         rightUpLeg: { x: 0.1 },
         rightLeg: { x: 0.3 },
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'The Sweep (Downward)',
@@ -1046,7 +1046,7 @@ const EXERCISE_LIBRARY = {
         rightArm: { x: 1.3, z: -0.6 },
         leftForeArm: { x: 0.8 },
         rightForeArm: { x: 0.8 },
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Final Recovery',
@@ -1055,13 +1055,13 @@ const EXERCISE_LIBRARY = {
         leftForeArm: { x: 0 }, rightForeArm: { x: 0 },
         leftUpLeg: { x: 0 }, rightUpLeg: { x: 0 },
         leftFoot: { x: 0 }, leftLeg: { x: 0 }, rightLeg: { x: 0 },
-        duration: 2
+        duration: 4
       }
     ]
   },
 
   'Elbow Forward Reach': {
-    info: 'Stand upright with arms bent. Reach your elbows forward, rounding your upper back slightly and pushing your shoulder blades apart. Return to a tall posture and repeat.',
+    info: '1. Neutral Setup\n2. Arms in Position\n3. Forward Reach\n4. Hold Stretch\n5. Return Center\n6. Final Relax',
     steps: [
       {
         name: 'Neutral Setup',
@@ -1073,7 +1073,7 @@ const EXERCISE_LIBRARY = {
         leftForeArm: { x: 0, y: 0, z: 0 }, rightForeArm: { x: 0, y: 0, z: 0 },
         leftShoulder: { x: 0, y: 0, z: 0 }, rightShoulder: { x: 0, y: 0, z: 0 },
         camPos: { x: 2.0, y: 1.4, z: 3.0 }, camTarget: { x: 0, y: 1.2, z: 0 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Arms in Position',
@@ -1084,7 +1084,7 @@ const EXERCISE_LIBRARY = {
         rightForeArm: { x: 1.3, y: 0, z: 0 },
         leftShoulder: { x: 0, y: 0, z: 0 },
         rightShoulder: { x: 0, y: 0, z: 0 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Forward Reach',
@@ -1098,7 +1098,7 @@ const EXERCISE_LIBRARY = {
         rightArm: { x: -1.4, y: 0.3, z: 0 },
         leftForeArm: { x: 1.3, y: 0, z: 0 },
         rightForeArm: { x: 1.3, y: 0, z: 0 },
-        duration: 3
+        duration: 6
       },
       {
         name: 'Hold Stretch',
@@ -1110,7 +1110,7 @@ const EXERCISE_LIBRARY = {
         rightArm: { x: -1.4, y: 0.3, z: 0 },
         leftForeArm: { x: 1.3, y: 0, z: 0 },
         rightForeArm: { x: 1.3, y: 0, z: 0 },
-        duration: 3
+        duration: 6
       },
       {
         name: 'Return Center',
@@ -1122,7 +1122,7 @@ const EXERCISE_LIBRARY = {
         rightArm: { x: -1.2, y: 0.2, z: 0.1 },
         leftForeArm: { x: 1.3, y: 0, z: 0 },
         rightForeArm: { x: 1.3, y: 0, z: 0 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Final Relax',
@@ -1134,12 +1134,12 @@ const EXERCISE_LIBRARY = {
         rightShoulder: { x: 0, y: 0, z: 0 },
         spine: { x: 0, y: 0, z: 0 },
         spine1: { x: 0, y: 0, z: 0 },
-        duration: 2
+        duration: 4
       }
     ]
   },
   'Eversion': {
-    info: 'Sit with legs extended forward and heels resting on the ground. Rotate your foot outward at the ankle so the sole tilts away from your body. Keep the leg still and repeat.',
+    info: '1. Seated Setup\n2. Right Foot Eversion\n3. Hold\n4. Return Neutral\n5. Left Foot Eversion\n6. Hold\n7. Return Neutral',
     steps: [
       {
         name: 'Seated Setup',
@@ -1154,38 +1154,38 @@ const EXERCISE_LIBRARY = {
         leftFoot: { x: 0, y: 0, z: 0 },
         rightFoot: { x: 0, y: 0, z: 0 },
         camPos: { x: 1.5, y: 1.2, z: 2.2 }, camTarget: { x: 0, y: 0, z: 0.8 },
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Right Foot Eversion',
         // Outward rotation (away from midline) for mirrored rig
         rightFoot: { x: 0.1, y: -0.6, z: 0 }, // x: 0.1 for slight dorsiflexion
         leftFoot: { x: 0, y: 0, z: 0 },
-        duration: 2
+        duration: 4
       },
-      { name: 'Hold', duration: 1.5 },
+      { name: 'Hold', duration: 3 },
       {
         name: 'Return Neutral',
         rightFoot: { x: 0, y: 0, z: 0 },
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'Left Foot Eversion',
         // Outward rotation for left foot
         leftFoot: { x: 0.1, y: 0.6, z: 0 },
         rightFoot: { x: 0, y: 0, z: 0 },
-        duration: 2
+        duration: 4
       },
-      { name: 'Hold', duration: 1.5 },
+      { name: 'Hold', duration: 3 },
       {
         name: 'Return Neutral',
         leftFoot: { x: 0, y: 0, z: 0 },
-        duration: 1.5
+        duration: 3
       }
     ]
   },
   'Finger Extension': {
-    info: 'Position your hand in front of you. Start with fingers relaxed and slowly straighten them as far as possible, spreading them slightly. Hold, then relax.',
+    info: '1. Hand Position\n2. Extend & Spread fingers\n3. Hold Extension\n4. Relax Fingers',
     steps: [
       {
         name: 'Hand Position',
@@ -1201,7 +1201,7 @@ const EXERCISE_LIBRARY = {
         mixamorigLeftHandRing1: { z: 0.6 }, mixamorigLeftHandRing2: { z: 0.6 }, mixamorigLeftHandRing3: { z: 0.6 },
         mixamorigLeftHandPinky1: { z: 0.6 }, mixamorigLeftHandPinky2: { z: 0.6 }, mixamorigLeftHandPinky3: { z: 0.6 },
         camPos: { x: -0.8, y: 1.5, z: 1.2 }, camTarget: { x: -0.4, y: 1.3, z: 0 },
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Extend & Spread fingers',
@@ -1210,21 +1210,21 @@ const EXERCISE_LIBRARY = {
         mixamorigLeftHandMiddle1: { y: 0, z: 0 }, mixamorigLeftHandMiddle2: { z: 0 }, mixamorigLeftHandMiddle3: { z: 0 },
         mixamorigLeftHandRing1: { y: 0.15, z: 0 }, mixamorigLeftHandRing2: { z: 0 }, mixamorigLeftHandRing3: { z: 0 },
         mixamorigLeftHandPinky1: { y: 0.3, z: 0 }, mixamorigLeftHandPinky2: { z: 0 }, mixamorigLeftHandPinky3: { z: 0 },
-        duration: 2
+        duration: 4
       },
-      { name: 'Hold Extension', duration: 2 },
+      { name: 'Hold Extension', duration: 4 },
       {
         name: 'Relax Fingers',
         mixamorigLeftHandIndex1: { y: 0, z: 0.6 }, mixamorigLeftHandIndex2: { z: 0.6 }, mixamorigLeftHandIndex3: { z: 0.6 },
         mixamorigLeftHandMiddle1: { y: 0, z: 0.6 }, mixamorigLeftHandMiddle2: { z: 0.6 }, mixamorigLeftHandMiddle3: { z: 0.6 },
         mixamorigLeftHandRing1: { y: 0, z: 0.6 }, mixamorigLeftHandRing2: { z: 0.6 }, mixamorigLeftHandRing3: { z: 0.6 },
         mixamorigLeftHandPinky1: { y: 0, z: 0.6 }, mixamorigLeftHandPinky2: { z: 0.6 }, mixamorigLeftHandPinky3: { z: 0.6 },
-        duration: 1.5
+        duration: 3
       }
     ]
   },
   'Finger Grip': {
-    info: 'Hold a ball or grip trainer in your hand. Slowly squeeze your fingers and thumb around the object for a firm grip. Hold, then release slowly.',
+    info: '1. Position Hand & Ball\n2. Firm Grip\n3. Hold Squeeze\n4. Slow Release',
     steps: [
       {
         name: 'Position Hand & Ball',
@@ -1242,7 +1242,7 @@ const EXERCISE_LIBRARY = {
         mixamorigLeftHandPinky1: { z: 0 }, mixamorigLeftHandPinky2: { z: 0 }, mixamorigLeftHandPinky3: { z: 0 },
         mixamorigLeftHandThumb1: { x: 0, y: 0, z: 0 }, mixamorigLeftHandThumb2: { z: 0 }, mixamorigLeftHandThumb3: { z: 0 },
         camPos: { x: -0.8, y: 1.5, z: 1.2 }, camTarget: { x: -0.4, y: 1.3, z: 0 },
-        duration: 2.5
+        duration: 5
       },
       {
         name: 'Firm Grip',
@@ -1253,9 +1253,9 @@ const EXERCISE_LIBRARY = {
         mixamorigLeftHandPinky1: { z: 0.8 }, mixamorigLeftHandPinky2: { z: 0.8 }, mixamorigLeftHandPinky3: { z: 0.8 },
         // Thumb opposition
         mixamorigLeftHandThumb1: { x: 0.4, y: 0.4, z: 0.3 }, mixamorigLeftHandThumb2: { z: 0.4 }, mixamorigLeftHandThumb3: { z: 0.4 },
-        duration: 2
+        duration: 4
       },
-      { name: 'Hold Squeeze', duration: 2 },
+      { name: 'Hold Squeeze', duration: 4 },
       {
         name: 'Slow Release',
         mixamorigLeftHandIndex1: { z: 0 }, mixamorigLeftHandIndex2: { z: 0 }, mixamorigLeftHandIndex3: { z: 0 },
@@ -1263,13 +1263,13 @@ const EXERCISE_LIBRARY = {
         mixamorigLeftHandRing1: { z: 0 }, mixamorigLeftHandRing2: { z: 0 }, mixamorigLeftHandRing3: { z: 0 },
         mixamorigLeftHandPinky1: { z: 0 }, mixamorigLeftHandPinky2: { z: 0 }, mixamorigLeftHandPinky3: { z: 0 },
         mixamorigLeftHandThumb1: { x: 0, y: 0, z: 0 }, mixamorigLeftHandThumb2: { z: 0 }, mixamorigLeftHandThumb3: { z: 0 },
-        duration: 2
+        duration: 4
       }
     ]
   },
 
   'Forward Backward Step': {
-    info: 'Stand upright with feet hip-width apart. Step one leg forward, shifting weight onto it, then step backward to return to the original standing position. Alternate legs and maintain a natural arm swing.',
+    info: '1. Neutral Start\n2. Right Leg Forward\n3. Shift Weight & Hold\n4. Return to Center\n5. Left Leg Forward\n6. Shift Weight & Hold\n7. Return to Center',
     steps: [
       {
         name: 'Neutral Start',
@@ -1279,7 +1279,7 @@ const EXERCISE_LIBRARY = {
         leftUpLeg: { x: 0 }, rightUpLeg: { x: 0 },
         leftLeg: { x: 0 }, rightLeg: { x: 0 },
         leftArm: { x: 0, z: -1.4 }, rightArm: { x: 0, z: 1.4 },
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'Right Leg Forward',
@@ -1291,11 +1291,11 @@ const EXERCISE_LIBRARY = {
         // Arm swing (Opposite arm forward: left arm)
         leftArm: { x: 0.5, z: -1.4 },
         rightArm: { x: -0.4, z: 1.4 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Shift Weight & Hold',
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'Return to Center',
@@ -1304,7 +1304,7 @@ const EXERCISE_LIBRARY = {
         hips: { pos: { x: 0, z: 0 } },
         leftArm: { x: 0, z: -1.4 },
         rightArm: { x: 0, z: 1.4 },
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'Left Leg Forward',
@@ -1316,11 +1316,11 @@ const EXERCISE_LIBRARY = {
         // Arm swing (Opposite arm forward: right arm)
         rightArm: { x: 0.5, z: 1.4 },
         leftArm: { x: -0.4, z: -1.4 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Shift Weight & Hold',
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'Return to Center',
@@ -1329,13 +1329,13 @@ const EXERCISE_LIBRARY = {
         hips: { pos: { x: 0, z: 0 } },
         leftArm: { x: 0, z: -1.4 },
         rightArm: { x: 0, z: 1.4 },
-        duration: 1.5
+        duration: 3
       }
     ]
   },
 
   'Forward Lunge': {
-    info: 'Stand upright with feet shoulder-width apart. Take a large step forward with one leg and lower your hips until both knees are bent at approximately a 90-degree angle. Keep your torso upright and push back to return to the start.',
+    info: '1. Neutral Setup\n2. Step Forward & Lunge (Right)\n3. Hold Lunge\n4. Push Back to Center\n5. Step Forward & Lunge (Left)\n6. Hold Lunge\n7. Final Return',
     steps: [
       {
         name: 'Neutral Setup',
@@ -1344,7 +1344,7 @@ const EXERCISE_LIBRARY = {
         leftArm: { x: 0.1, z: -1.4 }, rightArm: { x: 0.1, z: 1.4 },
         leftUpLeg: { x: 0 }, rightUpLeg: { x: 0 },
         leftLeg: { x: 0 }, rightLeg: { x: 0 },
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'Step Forward & Lunge (Right)',
@@ -1356,15 +1356,15 @@ const EXERCISE_LIBRARY = {
         // Back Leg (Left) - Staying back
         leftUpLeg: { x: 0.4 },   // Extension
         leftLeg: { x: 1.5 },     // Knee bend towards floor
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold Lunge', duration: 1.5 },
+      { name: 'Hold Lunge', duration: 3 },
       {
         name: 'Push Back to Center',
         hips: { pos: { y: 104 } }, // Return to standing height
         rightUpLeg: { x: 0 }, rightLeg: { x: 0 },
         leftUpLeg: { x: 0 }, leftLeg: { x: 0 },
-        duration: 1.8
+        duration: 3.6
       },
       {
         name: 'Step Forward & Lunge (Left)',
@@ -1375,21 +1375,21 @@ const EXERCISE_LIBRARY = {
         // Back Leg (Right)
         rightUpLeg: { x: 0.4 },
         rightLeg: { x: 1.5 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold Lunge', duration: 1.5 },
+      { name: 'Hold Lunge', duration: 3 },
       {
         name: 'Final Return',
         hips: { pos: { y: 104 } },
         rightUpLeg: { x: 0 }, rightLeg: { x: 0 },
         leftUpLeg: { x: 0 }, leftLeg: { x: 0 },
-        duration: 1.8
+        duration: 3.6
       }
     ]
   },
 
   'Forward Walking with Head Turns': {
-    info: 'Walk forward slowly with a natural gait. As you walk, turn your head gently to the left and right alternately while keeping your torso stable and balanced.',
+    info: '1. Neutral Start\n2. Step 1: Left Forward & Head Left\n3. Step 2: Right Forward & Head Right\n4. Step 3: Left Forward & Head Left\n5. Step 4: Right Forward & Center Head\n6. Return to Neutral',
     steps: [
       {
         name: 'Neutral Start',
@@ -1397,7 +1397,7 @@ const EXERCISE_LIBRARY = {
         hips: { pos: { y: 104, z: 0 } },
         leftArm: { x: 0.1, z: -1.4 }, rightArm: { x: 0.1, z: 1.4 },
         head: { y: 0 },
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'Step 1: Left Forward & Head Left',
@@ -1407,7 +1407,7 @@ const EXERCISE_LIBRARY = {
         leftArm: { x: -0.3, z: -1.4 }, rightArm: { x: 0.5, z: 1.4 },
         // Head Turn
         head: { y: 0.6 },
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'Step 2: Right Forward & Head Right',
@@ -1417,7 +1417,7 @@ const EXERCISE_LIBRARY = {
         leftArm: { x: 0.5, z: -1.4 }, rightArm: { x: -0.3, z: 1.4 },
         // Head Turn
         head: { y: -0.6 },
-        duration: 2.0 // Slow for head turn stability
+        duration: 4 // Slow for head turn stability
       },
       {
         name: 'Step 3: Left Forward & Head Left',
@@ -1425,7 +1425,7 @@ const EXERCISE_LIBRARY = {
         rightUpLeg: { x: 0.2 }, rightLeg: { x: 0.1 },
         leftArm: { x: -0.3, z: -1.4 }, rightArm: { x: 0.5, z: 1.4 },
         head: { y: 0.6 },
-        duration: 2.0
+        duration: 4
       },
       {
         name: 'Step 4: Right Forward & Center Head',
@@ -1433,7 +1433,7 @@ const EXERCISE_LIBRARY = {
         rightUpLeg: { x: -0.4 }, rightLeg: { x: 0.2 },
         leftArm: { x: 0.5, z: -1.4 }, rightArm: { x: -0.3, z: 1.4 },
         head: { y: 0 },
-        duration: 2.0
+        duration: 4
       },
       {
         name: 'Return to Neutral',
@@ -1441,13 +1441,13 @@ const EXERCISE_LIBRARY = {
         rightUpLeg: { x: 0 }, rightLeg: { x: 0 },
         leftArm: { x: 0.1, z: -1.4 }, rightArm: { x: 0.1, z: 1.4 },
         head: { y: 0 },
-        duration: 1.5
+        duration: 3
       }
     ]
   },
 
   'Glute Assisted Single Leg Bridging': {
-    info: 'Lie on your back with knees bent and feet flat. Extend one leg forward. Push through the planted foot to lift your hips until your torso and thigh form a straight line. Lower slowly and repeat.',
+    info: '1. Supine Setup\n2. Lift Straight Leg\n3. Hold Position\n4. Lower Straight Leg\n5. Final Lift\n6. Hold & Return\n7. Resting Position',
     steps: [
       {
         name: 'Supine Setup',
@@ -1460,36 +1460,36 @@ const EXERCISE_LIBRARY = {
         rightUpLeg: { x: -0.1 }, rightLeg: { x: 0.1 },
         // Arms at sides for stability
         leftArm: { x: 0.2, z: -1.4 }, rightArm: { x: 0.2, z: 1.4 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Lift Straight Leg',
         // Only the extended leg rises; the entire body and hips remain perfectly static
         rightUpLeg: { x: -1.0 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold Position', duration: 1.5 },
+      { name: 'Hold Position', duration: 3 },
       {
         name: 'Lower Straight Leg',
         rightUpLeg: { x: -0.1 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Final Lift',
         rightUpLeg: { x: -1.0 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold & Return', duration: 1.5 },
+      { name: 'Hold & Return', duration: 3 },
       {
         name: 'Resting Position',
         rightUpLeg: { x: -0.1 },
-        duration: 1.5
+        duration: 3
       }
     ]
   },
 
   'Glute Single Leg Bridging': {
-    info: 'Lie on your back with one knee bent and the foot flat on the floor, while the other leg is extended straight. Lift your hips upward using the bent leg while keeping the extended leg aligned with your torso. Lower your hips slowly back to the floor.',
+    info: '1. Supine Setup\n2. Lift Hips (Bridge)\n3. Hold Bridge\n4. Lower Hips\n5. Final Lift\n6. Hold & Return\n7. Resting Position',
     steps: [
       {
         name: 'Supine Setup',
@@ -1502,7 +1502,7 @@ const EXERCISE_LIBRARY = {
         rightUpLeg: { x: -0.1 }, rightLeg: { x: 0.1 },
         // Arms at sides
         leftArm: { x: 0.2, z: -1.4 }, rightArm: { x: 0.2, z: 1.4 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Lift Hips (Bridge)',
@@ -1512,36 +1512,36 @@ const EXERCISE_LIBRARY = {
         // Planted foot knee drops to match torso
         leftUpLeg: { x: -0.1 }, leftLeg: { x: 1.4 },
         // Extended leg (Right) naturally follows pelvis, keeping perfectly aligned
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold Bridge', duration: 1.5 },
+      { name: 'Hold Bridge', duration: 3 },
       {
         name: 'Lower Hips',
         hips: { rot: { x: -Math.PI / 2 }, pos: { y: 12, z: 0 } },
         spine: { x: 0 }, spine1: { x: 0 },
         leftUpLeg: { x: -1.0 }, leftLeg: { x: 1.8 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Final Lift',
         hips: { rot: { x: -Math.PI / 2 - 0.35 }, pos: { y: 28, z: 0 } },
         spine: { x: -0.1 }, spine1: { x: -0.1 },
         leftUpLeg: { x: -0.1 }, leftLeg: { x: 1.4 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold & Return', duration: 1.5 },
+      { name: 'Hold & Return', duration: 3 },
       {
         name: 'Resting Position',
         hips: { rot: { x: -Math.PI / 2 }, pos: { y: 12, z: 0 } },
         spine: { x: 0 }, spine1: { x: 0 },
         leftUpLeg: { x: -1.0 }, leftLeg: { x: 1.8 },
-        duration: 1.5
+        duration: 3
       }
     ]
   },
 
   'Glute Bridging': {
-    info: 'Lie on your back with knees bent and feet flat on the ground. Press through both feet to lift your hips upward, engaging the glute and lower back muscles. Form a straight line from shoulders to knees, then lower slowly.',
+    info: '1. Supine Setup\n2. Lift Hips (Bridge)\n3. Hold Bridge\n4. Lower Hips\n5. Final Lift\n6. Hold & Return\n7. Resting Position',
     steps: [
       {
         name: 'Supine Setup',
@@ -1553,7 +1553,7 @@ const EXERCISE_LIBRARY = {
         rightUpLeg: { x: -1.0 }, rightLeg: { x: 1.8 },
         // Arms at sides for stability
         leftArm: { x: 0.2, z: -1.4 }, rightArm: { x: 0.2, z: 1.4 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Lift Hips (Bridge)',
@@ -1563,16 +1563,16 @@ const EXERCISE_LIBRARY = {
         // Thighs align with torso, knees open to keep feet planted
         leftUpLeg: { x: -0.1 }, leftLeg: { x: 1.4 },
         rightUpLeg: { x: -0.1 }, rightLeg: { x: 1.4 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold Bridge', duration: 1.5 },
+      { name: 'Hold Bridge', duration: 3 },
       {
         name: 'Lower Hips',
         hips: { rot: { x: -Math.PI / 2 }, pos: { y: 12, z: 0 } },
         spine: { x: 0 }, spine1: { x: 0 },
         leftUpLeg: { x: -1.0 }, leftLeg: { x: 1.8 },
         rightUpLeg: { x: -1.0 }, rightLeg: { x: 1.8 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Final Lift',
@@ -1580,22 +1580,22 @@ const EXERCISE_LIBRARY = {
         spine: { x: -0.1 }, spine1: { x: -0.1 },
         leftUpLeg: { x: -0.1 }, leftLeg: { x: 1.4 },
         rightUpLeg: { x: -0.1 }, rightLeg: { x: 1.4 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold & Return', duration: 1.5 },
+      { name: 'Hold & Return', duration: 3 },
       {
         name: 'Resting Position',
         hips: { rot: { x: -Math.PI / 2 }, pos: { y: 12, z: 0 } },
         spine: { x: 0 }, spine1: { x: 0 },
         leftUpLeg: { x: -1.0 }, leftLeg: { x: 1.8 },
         rightUpLeg: { x: -1.0 }, rightLeg: { x: 1.8 },
-        duration: 1.5
+        duration: 3
       }
     ]
   },
 
   'Gluteal Stretch': {
-    info: 'Lie on your back with knees bent. Place one ankle across the opposite knee. Grab the supporting thigh with both hands and gently pull it toward your chest. Hold, then slowly release.',
+    info: '1. Supine Setup\n2. Figure-Four Position\n3. Pull Thigh to Chest\n4. Hold Stretch\n5. Release to Figure-Four\n6. Return to Start',
     steps: [
       {
         name: 'Supine Setup',
@@ -1608,14 +1608,14 @@ const EXERCISE_LIBRARY = {
         // Arms at sides
         leftArm: { x: 0.2, z: -1.4 }, rightArm: { x: 0.2, z: 1.4 },
         camPos: { x: 3.0, y: 2.5, z: 3.0 }, camTarget: { x: 0, y: 0.5, z: 0 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Figure-Four Position',
         // Place right ankle across left knee by rotating and lifting right leg
         rightUpLeg: { x: -1.1, y: -0.6, z: 0.5 },
         rightLeg: { x: 2.2 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Pull Thigh to Chest',
@@ -1626,27 +1626,27 @@ const EXERCISE_LIBRARY = {
         // Reach arms to grab the left thigh
         leftArm: { x: -1.0, y: 0.2, z: -0.2 }, leftForeArm: { x: 1.5 },
         rightArm: { x: -1.0, y: -0.2, z: 0.2 }, rightForeArm: { x: 1.5 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold Stretch', duration: 2.5 },
+      { name: 'Hold Stretch', duration: 5 },
       {
         name: 'Release to Figure-Four',
         leftUpLeg: { x: -1.0 }, leftLeg: { x: 1.8 },
         rightUpLeg: { x: -1.1, y: -0.6, z: 0.5 },
         leftArm: { x: 0.2, y: 0, z: -1.4 }, leftForeArm: { x: 0 },
         rightArm: { x: 0.2, y: 0, z: 1.4 }, rightForeArm: { x: 0 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Return to Start',
         rightUpLeg: { x: -1.0, y: 0, z: 0 }, rightLeg: { x: 1.8 },
-        duration: 2
+        duration: 4
       }
     ]
   },
 
   'Hamstring Assisted Single Leg Bridging': {
-    info: 'Lie on your back with one knee bent and the foot flat on the floor, while the other leg remains extended upward. Hold the extended leg lightly behind the thigh for support. Lift your hips upward by pressing through the bent leg. Lower the pelvis back to the floor slowly.',
+    info: '1. Supine Setup\n2. Lift Hips (Bridge)\n3. Hold Bridge\n4. Lower Hips\n5. Final Lift\n6. Hold & Return\n7. Resting Position',
     steps: [
       {
         name: 'Supine Setup',
@@ -1660,7 +1660,7 @@ const EXERCISE_LIBRARY = {
         // Arms holding lightly behind the right thigh
         leftArm: { x: -1.4, y: 0.2, z: -0.4 }, leftForeArm: { x: 1.0 },
         rightArm: { x: -1.4, y: -0.2, z: 0.4 }, rightForeArm: { x: 1.0 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Lift Hips (Bridge)',
@@ -1670,36 +1670,36 @@ const EXERCISE_LIBRARY = {
         // Planted foot knee drops to match torso angle
         leftUpLeg: { x: -0.1 }, leftLeg: { x: 1.4 },
         // The right leg and arms stay locked to their parent joints, naturally tracking the hip tilt
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold Bridge', duration: 1.5 },
+      { name: 'Hold Bridge', duration: 3 },
       {
         name: 'Lower Hips',
         hips: { rot: { x: -Math.PI / 2 }, pos: { y: 12, z: 0 } },
         spine: { x: 0 }, spine1: { x: 0 },
         leftUpLeg: { x: -1.0 }, leftLeg: { x: 1.8 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Final Lift',
         hips: { rot: { x: -Math.PI / 2 - 0.35 }, pos: { y: 28, z: 0 } },
         spine: { x: -0.1 }, spine1: { x: -0.1 },
         leftUpLeg: { x: -0.1 }, leftLeg: { x: 1.4 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold & Return', duration: 1.5 },
+      { name: 'Hold & Return', duration: 3 },
       {
         name: 'Resting Position',
         hips: { rot: { x: -Math.PI / 2 }, pos: { y: 12, z: 0 } },
         spine: { x: 0 }, spine1: { x: 0 },
         leftUpLeg: { x: -1.0 }, leftLeg: { x: 1.8 },
-        duration: 1.5
+        duration: 3
       }
     ]
   },
 
   'Hamstring Bridging': {
-    info: 'Lie on your back with knees bent and heels placed firmly on the floor, slightly farther from the hips than in a glute bridge to emphasize hamstring activation. Arms rest beside the body. Press through your heels to lift the pelvis upward while keeping your shoulders on the ground. Form a straight line from shoulders to knees, then lower slowly.',
+    info: '1. Supine Setup (Heels Extended)\n2. Lift Pelvis (Hamstring Bridge)\n3. Hold Bridge\n4. Lower Pelvis\n5. Final Lift\n6. Hold & Return\n7. Resting Position',
     steps: [
       {
         name: 'Supine Setup (Heels Extended)',
@@ -1711,7 +1711,7 @@ const EXERCISE_LIBRARY = {
         rightUpLeg: { x: -0.6 }, rightLeg: { x: 0.8 },
         // Arms at sides for stability
         leftArm: { x: 0.2, z: -1.4 }, rightArm: { x: 0.2, z: 1.4 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Lift Pelvis (Hamstring Bridge)',
@@ -1722,16 +1722,16 @@ const EXERCISE_LIBRARY = {
         // Thighs align with torso, knees open slightly to keep heels planted
         leftUpLeg: { x: -0.1 }, leftLeg: { x: 0.6 },
         rightUpLeg: { x: -0.1 }, rightLeg: { x: 0.6 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold Bridge', duration: 1.5 },
+      { name: 'Hold Bridge', duration: 3 },
       {
         name: 'Lower Pelvis',
         hips: { rot: { x: -Math.PI / 2 }, pos: { y: 12, z: 0 } },
         spine: { x: 0 }, spine1: { x: 0 },
         leftUpLeg: { x: -0.6 }, leftLeg: { x: 0.8 },
         rightUpLeg: { x: -0.6 }, rightLeg: { x: 0.8 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Final Lift',
@@ -1739,22 +1739,22 @@ const EXERCISE_LIBRARY = {
         spine: { x: -0.1 }, spine1: { x: -0.1 },
         leftUpLeg: { x: -0.1 }, leftLeg: { x: 0.6 },
         rightUpLeg: { x: -0.1 }, rightLeg: { x: 0.6 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold & Return', duration: 1.5 },
+      { name: 'Hold & Return', duration: 3 },
       {
         name: 'Resting Position',
         hips: { rot: { x: -Math.PI / 2 }, pos: { y: 12, z: 0 } },
         spine: { x: 0 }, spine1: { x: 0 },
         leftUpLeg: { x: -0.6 }, leftLeg: { x: 0.8 },
         rightUpLeg: { x: -0.6 }, rightLeg: { x: 0.8 },
-        duration: 1.5
+        duration: 3
       }
     ]
   },
 
   'Hamstring Single Leg Bridging': {
-    info: 'Lie on your back with one knee bent and heel placed on the floor, father from the hips than a typical glute bridge. Keep the other leg extended straight. Lift your hips upward by pushing through the heel of the supporting leg while maintaining the extended leg aligned with the torso. Lower back to the floor slowly.',
+    info: '1. Supine Setup (Heel Extended)\n2. Lift Pelvis (Single Leg Hamstring Bridge)\n3. Hold Bridge\n4. Lower Pelvis\n5. Final Lift\n6. Hold & Return\n7. Resting Position',
     steps: [
       {
         name: 'Supine Setup (Heel Extended)',
@@ -1767,7 +1767,7 @@ const EXERCISE_LIBRARY = {
         rightUpLeg: { x: -0.1 }, rightLeg: { x: 0.1 },
         // Arms at sides for balance
         leftArm: { x: 0.2, z: -1.4 }, rightArm: { x: 0.2, z: 1.4 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Lift Pelvis (Single Leg Hamstring Bridge)',
@@ -1778,36 +1778,36 @@ const EXERCISE_LIBRARY = {
         // Planted Left leg thigh aligns with torso, knee opens slightly
         leftUpLeg: { x: -0.1 }, leftLeg: { x: 0.6 },
         // Extended right leg naturally follows the tilt of the pelvis
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold Bridge', duration: 1.5 },
+      { name: 'Hold Bridge', duration: 3 },
       {
         name: 'Lower Pelvis',
         hips: { rot: { x: -Math.PI / 2 }, pos: { y: 12, z: 0 } },
         spine: { x: 0 }, spine1: { x: 0 },
         leftUpLeg: { x: -0.6 }, leftLeg: { x: 0.8 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Final Lift',
         hips: { rot: { x: -Math.PI / 2 - 0.25 }, pos: { y: 22, z: 0 } },
         spine: { x: -0.1 }, spine1: { x: -0.1 },
         leftUpLeg: { x: -0.1 }, leftLeg: { x: 0.6 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold & Return', duration: 1.5 },
+      { name: 'Hold & Return', duration: 3 },
       {
         name: 'Resting Position',
         hips: { rot: { x: -Math.PI / 2 }, pos: { y: 12, z: 0 } },
         spine: { x: 0 }, spine1: { x: 0 },
         leftUpLeg: { x: -0.6 }, leftLeg: { x: 0.8 },
-        duration: 1.5
+        duration: 3
       }
     ]
   },
 
   'Hamstring Stretch': {
-    info: 'Lie on your back with one leg extended flat on the floor and the other leg raised upward. Keeping the raised knee straight, gently pull the leg toward your torso to stretch the hamstrings. Hold the stretch, then slowly return to the starting position.',
+    info: '1. Supine Setup\n2. Pull Leg (Stretch)\n3. Hold Stretch\n4. Release to Start',
     steps: [
       {
         name: 'Supine Setup',
@@ -1821,7 +1821,7 @@ const EXERCISE_LIBRARY = {
         // Arms hold the back of the right thigh
         leftArm: { x: -1.2, y: 0.2, z: -0.3 }, leftForeArm: { x: 0.8 },
         rightArm: { x: -1.2, y: -0.2, z: 0.3 }, rightForeArm: { x: 0.8 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Pull Leg (Stretch)',
@@ -1830,21 +1830,21 @@ const EXERCISE_LIBRARY = {
         // Bend elbows to pull
         leftArm: { x: -1.8, y: 0.2, z: -0.3 }, leftForeArm: { x: 1.5 },
         rightArm: { x: -1.8, y: -0.2, z: 0.3 }, rightForeArm: { x: 1.5 },
-        duration: 2.5
+        duration: 5
       },
-      { name: 'Hold Stretch', duration: 2.5 },
+      { name: 'Hold Stretch', duration: 5 },
       {
         name: 'Release to Start',
         rightUpLeg: { x: -1.5 },
         leftArm: { x: -1.2, y: 0.2, z: -0.3 }, leftForeArm: { x: 0.8 },
         rightArm: { x: -1.2, y: -0.2, z: 0.3 }, rightForeArm: { x: 0.8 },
-        duration: 2
+        duration: 4
       }
     ]
   },
 
   'Hand Grasp': {
-    info: 'Position your hand in front of your body with fingers extended and slightly separated. Flex your fingers inward toward the palm while the thumb moves across to form a full grasping motion (like making a fist). Hold briefly, then extend your fingers to return to the open-hand position.',
+    info: '1. Open Hand Setup\n2. Grasp (Flex Fingers)\n3. Hold Grasp\n4. Release (Open Hand)\n5. Final Grasp\n6. Hold Grasp\n7. Resting Position',
     steps: [
       {
         name: 'Open Hand Setup',
@@ -1880,7 +1880,7 @@ const EXERCISE_LIBRARY = {
         leftHandPinky1: { z: 0.2 }, leftHandPinky2: { z: 0 }, leftHandPinky3: { z: 0 },
 
         camPos: { x: 1.0, y: 1.2, z: 1.5 }, camTarget: { x: 0, y: 1.0, z: 0.5 },
-        duration: 2
+        duration: 4
       },
       {
         name: 'Grasp (Flex Fingers)',
@@ -1890,9 +1890,9 @@ const EXERCISE_LIBRARY = {
         leftHandRing1: { z: 1.5 }, leftHandRing2: { z: 1.5 }, leftHandRing3: { z: 1.0 },
         leftHandPinky1: { z: 1.5 }, leftHandPinky2: { z: 1.5 }, leftHandPinky3: { z: 1.0 },
         leftHandThumb1: { y: -0.5, z: 0 }, leftHandThumb2: { y: -0.8 }, leftHandThumb3: { y: -0.5 },
-        duration: 1.5
+        duration: 3
       },
-      { name: 'Hold Grasp', duration: 1.5 },
+      { name: 'Hold Grasp', duration: 3 },
       {
         name: 'Release (Open Hand)',
         leftHandThumb1: { y: 0.4, z: 0.2 }, leftHandThumb2: { y: 0 }, leftHandThumb3: { y: 0 },
@@ -1900,7 +1900,7 @@ const EXERCISE_LIBRARY = {
         leftHandMiddle1: { z: 0 }, leftHandMiddle2: { z: 0 }, leftHandMiddle3: { z: 0 },
         leftHandRing1: { z: 0.1 }, leftHandRing2: { z: 0 }, leftHandRing3: { z: 0 },
         leftHandPinky1: { z: 0.2 }, leftHandPinky2: { z: 0 }, leftHandPinky3: { z: 0 },
-        duration: 1.5
+        duration: 3
       },
       {
         name: 'Final Grasp',
@@ -1909,9 +1909,9 @@ const EXERCISE_LIBRARY = {
         leftHandRing1: { z: 1.5 }, leftHandRing2: { z: 1.5 }, leftHandRing3: { z: 1.0 },
         leftHandPinky1: { z: 1.5 }, leftHandPinky2: { z: 1.5 }, leftHandPinky3: { z: 1.0 },
         leftHandThumb1: { y: -0.5, z: 0 }, leftHandThumb2: { y: -0.8 }, leftHandThumb3: { y: -0.5 },
-        duration: 1.5
+        duration: 3
       },
-      { name: 'Hold Grasp', duration: 1.5 },
+      { name: 'Hold Grasp', duration: 3 },
       {
         name: 'Resting Position',
         leftHandThumb1: { y: 0.4, z: 0.2 }, leftHandThumb2: { y: 0 }, leftHandThumb3: { y: 0 },
@@ -1919,7 +1919,7 @@ const EXERCISE_LIBRARY = {
         leftHandMiddle1: { z: 0 }, leftHandMiddle2: { z: 0 }, leftHandMiddle3: { z: 0 },
         leftHandRing1: { z: 0.1 }, leftHandRing2: { z: 0 }, leftHandRing3: { z: 0 },
         leftHandPinky1: { z: 0.2 }, leftHandPinky2: { z: 0 }, leftHandPinky3: { z: 0 },
-        duration: 1.5
+        duration: 3
       }
     ]
   }
